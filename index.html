@@ -1,0 +1,2675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Fresh Vegetable Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #173b2b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 70px;
+            color: #263b2d;
+        }
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f4f8ef;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* ===== Language header — dark glass so it never covers the photo with white ===== */
+        .top-lang-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(10, 15, 35, 0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            position: relative;
+            z-index: 10;
+        }
+        .lang-select-dropdown {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(10, 15, 35, 0.6);
+            color: #d8e8a5;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            width: auto;
+        }
+        .lang-select-dropdown option {
+            background: #234632;
+            color: #fff;
+        }
+
+        /* ===== AUTH SECTION — vivid electronics photo, TEXT ONLY on top ===== */
+        #authSection {
+            min-height: calc(100vh - 50px);
+            background:
+                radial-gradient(900px 500px at 15% 0%, rgba(167,139,250,0.28), transparent 60%),
+                radial-gradient(800px 450px at 100% 100%, rgba(249,115,22,0.26), transparent 60%),
+                linear-gradient(rgba(8,12,28,0.32), rgba(8,12,28,0.58)),
+                url('https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1400&q=85') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* no white card at all — only text floats over the photo */
+        .auth-card {
+            width: 100%;
+            padding: 25px 20px;
+            background: transparent;
+            border-radius: 24px;
+        }
+
+        .auth-banner-card {
+            background: linear-gradient(135deg, rgba(255,122,89,0.18), rgba(167,139,250,0.18));
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            border: 2px dashed rgba(255,209,102,0.55);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.28);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .auth-banner-card h2 {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(90deg, #d8e8a5, #8dbb68 45%, #d7a84b 80%, #5d9b61);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .auth-banner-card h2 i {
+            color: #d8e8a5;
+            -webkit-text-fill-color: #d8e8a5;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .auth-header h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #d8e8a5, #8dbb68 40%, #d7a84b 70%, #5d9b61);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 4px 20px rgba(236,72,153,0.45));
+        }
+        .auth-header h1 i {
+            color: #d8e8a5;
+            -webkit-text-fill-color: #d8e8a5;
+            filter: drop-shadow(0 2px 10px rgba(255,209,102,0.55));
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.18);
+        }
+        .toggle-btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #d4e5cd;
+            transition: all 0.2s ease;
+        }
+        #loginTab.active {
+            color: #d8e8a5;
+            border-bottom: 3px solid #8dbb68;
+            text-shadow: 0 0 16px rgba(255,140,80,0.6);
+        }
+        #registerTab.active {
+            color: #cde7c6;
+            border-bottom: 3px solid #5d9b61;
+            text-shadow: 0 0 16px rgba(167,139,250,0.6);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        /* Default (dashboard) inputs */
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #bfd2b7;
+            border-radius: 60px;
+            font-size: 1rem;
+            outline: none;
+            background: #f4f8ef;
+        }
+        input:focus {
+            border-color: #5d9b61;
+            background: #fff;
+        }
+
+        /* Auth inputs — dark glass over the photo, NO white */
+        #authSection input {
+            border: 1.5px solid rgba(255,255,255,0.28);
+            background: rgba(10,15,35,0.5);
+            color: #ffffff;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        #authSection input::placeholder {
+            color: #e3eed9;
+        }
+        #authSection #loginPhone:focus   { border-color: #d8e8a5; box-shadow: 0 0 0 3px rgba(255,209,102,0.25); }
+        #authSection #loginPassword:focus{ border-color: #9fce87; box-shadow: 0 0 0 3px rgba(110,231,183,0.25); }
+        #authSection #regName:focus      { border-color: #a8d19b; box-shadow: 0 0 0 3px rgba(196,181,253,0.25); }
+        #authSection #regPhone:focus     { border-color: #d8e8a5; box-shadow: 0 0 0 3px rgba(255,209,102,0.25); }
+        #authSection #regPassword:focus  { border-color: #9fce87; box-shadow: 0 0 0 3px rgba(110,231,183,0.25); }
+        #authSection #regConfirm:focus   { border-color: #d8bd78; box-shadow: 0 0 0 3px rgba(249,168,212,0.25); }
+        #authSection #inviteCode:focus   { border-color: #d4a45f; box-shadow: 0 0 0 3px rgba(253,186,116,0.25); }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #5d9b61, #d7a84b 60%, #c98b45);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 6px 18px rgba(236,72,153,0.35);
+            transition: all 0.2s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .error {
+            color: #c95746;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .dashboard {
+            display: none;
+        }
+
+        /* ===== DASHBOARD — blue replaced with varied beautiful gradients ===== */
+        .top-bar {
+            background: linear-gradient(135deg, #34734a 0%, #d7a84b 55%, #c98b45 100%);
+            padding: 24px 20px 16px;
+            color: white;
+            border-radius: 0 0 20px 20px;
+        }
+        .greeting {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .logout-link {
+            text-align: right;
+            font-size: 0.8rem;
+            margin: 10px 16px 0;
+            cursor: pointer;
+            color: #c95746;
+            font-weight: 600;
+        }
+        .balance-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #d9e6d2;
+        }
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #b8a342, #c98b45 50%, #d7a84b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 2px 8px rgba(249,115,22,0.35));
+        }
+        .quick-actions {
+            display: flex;
+            justify-content: space-around;
+            margin: 16px;
+            gap: 10px;
+        }
+        .quick-btn {
+            background: white;
+            border: 1px solid #d9e6d2;
+            border-radius: 16px;
+            padding: 12px 8px;
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .quick-btn i {
+            font-size: 1.4rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .quick-btn[data-action="deposit"]  i { color: #4d9960; }
+        .quick-btn[data-action="withdraw"] i { color: #c98b45; }
+        .quick-btn[data-action="checkin"]  i { color: #b8a342; }
+        .quick-btn[data-action="service"]  i { color: #689d55; }
+        .quick-btn span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #304a35;
+        }
+        /* Home-only dashboard summary */
+        #dashboard:not(.home-view) > .top-bar,
+        #dashboard:not(.home-view) > .logout-link,
+        #dashboard:not(.home-view) > .balance-card,
+        #dashboard:not(.home-view) > .quick-actions { display: none !important; }
+
+        /* Draggable, pulsing customer-support headset */
+        .floating-support {
+            position: fixed; right: 18px; bottom: 88px; z-index: 9999;
+            width: 58px; height: 58px; border: 3px solid #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; background: linear-gradient(145deg,#ff4242,#b90018);
+            box-shadow: 0 0 0 0 rgba(255,25,25,.75), 0 5px 15px rgba(120,0,0,.3);
+            animation: supportPulse 1.25s infinite; cursor: grab; touch-action: none;
+        }
+        .floating-support i { font-size: 26px; pointer-events: none; }
+        .floating-support:active { cursor: grabbing; }
+        @keyframes supportPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,25,25,.75), 0 5px 15px rgba(120,0,0,.3); }
+            65% { box-shadow: 0 0 0 13px rgba(255,25,25,0), 0 5px 15px rgba(120,0,0,.3); }
+            100% { box-shadow: 0 0 0 0 rgba(255,25,25,0), 0 5px 15px rgba(120,0,0,.3); }
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            border-top: 1px solid #d9e6d2;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.03);
+        }
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            flex: 1;
+            color: #6d8268;
+        }
+        .nav-item i {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .nav-item span {
+            font-size: 0.75rem;
+        }
+        .nav-item.active {
+            font-weight: bold;
+        }
+        .nav-item[data-nav="home"].active   { color: #8b5cf6; }
+        .nav-item[data-nav="orders"].active { color: #c98b45; }
+        .nav-item[data-nav="show"].active   { color: #d7a84b; }
+        .nav-item[data-nav="share"].active  { color: #6caa70; }
+        .nav-item[data-nav="my"].active     { color: #4d9960; }
+
+        .panel {
+            display: none;
+            padding: 16px;
+        }
+        .panel.active-panel {
+            display: block;
+        }
+        .vip-card, .withdraw-card, .deposit-step-card, .bank-card-form {
+            background: white;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid #d9e6d2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .vip-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .club-logo {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .vip-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #34734a, #d7a84b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .vip-detail {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 0.9rem;
+            color: #405b43;
+        }
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .amount-btn, .bank-option {
+            background: #eaf2e4;
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.1s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #bfd2b7;
+        }
+        .amount-btn.selected, .bank-option.selected {
+            background: linear-gradient(135deg, #5d9b61, #d7a84b);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 18px rgba(236,72,153,0.35);
+        }
+        .bank-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .copy-btn {
+            background: linear-gradient(135deg, #c98b45, #d7a84b);
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.75rem;
+            box-shadow: 0 3px 10px rgba(236,72,153,0.3);
+        }
+        .report-item {
+            background: #f4f8ef;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 5px solid #5d9b61;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .status-pending { color: #a97b28; font-weight: bold; }
+        .status-success { color: #3d874b; font-weight: bold; }
+        .status-failed { color: #b84d3f; font-weight: bold; }
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000;
+        }
+        .report-modal, .bank-select-modal {
+            background: white;
+            border-radius: 24px;
+            width: 92%;
+            max-width: 440px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* --- CUSTOM REPORT LAYOUT STYLES --- */
+        .report-tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #d9e6d2;
+            padding-bottom: 10px;
+        }
+        .report-tab-btn {
+            flex: 1;
+            padding: 10px 5px;
+            text-align: center;
+            background: #eaf2e4;
+            color: #405b43;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        .report-tab-btn.active-dep {
+            background: linear-gradient(135deg, #4d9960, #6caa70);
+            color: white;
+        }
+        .report-tab-btn.active-wd {
+            background: linear-gradient(135deg, #c98b45, #b8a342);
+            color: white;
+        }
+        .report-split-grid {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .report-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-level { background: #eaf2e4; border-radius: 14px; padding: 14px; margin: 10px 0; }
+        .three-dot-icon {
+            background: #d9e6d2; border-radius: 50%; width: 38px; height: 38px;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem; color: #304a35;
+        }
+        .bank-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .bank-option-item {
+            padding: 12px;
+            border-bottom: 1px solid #d9e6d2;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bank-option-item:hover {
+            background: #f4f8ef;
+        }
+        .timer-text { font-size: 0.75rem; color: #a97b28; margin-top: 4px; }
+        .btn-secondary {
+            background: #8ba184;
+            box-shadow: none;
+            margin-top: 8px;
+        }
+
+
+        /* Customer Support page redesign — preserve existing labels and links */
+        #servicePanel .vip-card {
+            padding: 24px 18px !important;
+            border: 1px solid #bfe5dc !important;
+            border-radius: 24px !important;
+            background: radial-gradient(circle at top right, rgba(108,202,177,.22), transparent 42%), linear-gradient(145deg,#ffffff 0%,#effbf7 55%,#e2f5f1 100%) !important;
+            box-shadow: 0 12px 30px rgba(22,115,99,.13) !important;
+            text-align: center;
+        }
+        #servicePanel .vip-card h3 {
+            color: #126b60 !important;
+            font-size: 1.35rem;
+            font-weight: 800;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #ccebe2;
+        }
+        #servicePanel .vip-card button {
+            width: 100%;
+            min-height: 54px;
+            margin: 9px 0 0;
+            border: 0;
+            border-radius: 15px;
+            color: #fff;
+            background: linear-gradient(110deg,#138b78,#31b99a);
+            box-shadow: 0 7px 16px rgba(19,139,120,.2);
+            font-weight: 750;
+            font-size: 1rem;
+            transition: transform .18s ease, filter .18s ease;
+        }
+        #servicePanel .vip-card button.btn-secondary {
+            background: linear-gradient(110deg,#2677c9,#55a7ec);
+            box-shadow: 0 7px 16px rgba(38,119,201,.18);
+        }
+        #servicePanel .vip-card button:active { transform: scale(.98); filter: brightness(.96); }
+        #servicePanel .vip-card button i { margin-right: 8px; }
+
+        /* ===== Fresh market product cards and purchase amount ===== */
+        #homePanel.active-panel {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            align-content: start;
+            padding: 18px;
+            background: #f2f5fb;
+        }
+        #homePanel > div:first-child { grid-column: 1 / -1; }
+        #homePanel > div:first-child h3 {
+            color: #243b6b !important;
+            font-size: 1.35rem;
+            letter-spacing: .2px;
+            padding: 4px 0 8px;
+        }
+        #homePanel .vip-card {
+            min-width: 0;
+            margin: 0;
+            padding: 12px;
+            border: 1px solid #d7e0f1;
+            border-radius: 18px;
+            background: linear-gradient(155deg, #ffffff 0%, #f1f5ff 100%);
+            box-shadow: 0 7px 18px rgba(36, 59, 107, .10);
+            overflow: hidden;
+        }
+        #homePanel .vip-header {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 9px;
+            margin-bottom: 12px;
+        }
+        #homePanel .club-logo {
+            width: 100%;
+            height: 125px;
+            border-radius: 13px;
+            object-fit: cover;
+            box-shadow: none;
+        }
+        #homePanel .vip-title {
+            color: #243b6b;
+            background: none;
+            -webkit-text-fill-color: #243b6b;
+            font-size: 1rem;
+            line-height: 1.25;
+            min-height: 2.4em;
+        }
+        #homePanel .vip-detail {
+            align-items: flex-start;
+            gap: 7px;
+            margin: 9px 0;
+            padding-bottom: 7px;
+            border-bottom: 1px solid #e1e7f2;
+            color: #52617c;
+            font-size: .78rem;
+        }
+        #homePanel .vip-detail strong {
+            color: #243b6b;
+            text-align: right;
+            font-size: .8rem;
+            white-space: nowrap;
+        }
+        #homePanel .vip-detail:nth-of-type(3) strong { color: #087f8c !important; }
+        #homePanel .purchase-btn {
+            display: flex;
+            width: 100%;
+            min-height: 48px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 9px 7px;
+            border: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #243b6b, #087f8c);
+            color: #fff;
+            box-shadow: 0 5px 12px rgba(8, 127, 140, .22);
+            font-weight: 800;
+            cursor: pointer;
+        }
+        #homePanel .purchase-btn span {
+            font-size: .68rem;
+            letter-spacing: 1px;
+        }
+        #homePanel .purchase-btn strong {
+            font-size: 1rem;
+            line-height: 1.2;
+            color: #fff;
+        }
+        #homePanel .purchase-btn:active { transform: scale(.98); }
+        @media (max-width: 360px) {
+            #homePanel.active-panel { gap: 10px; padding: 12px; }
+            #homePanel .vip-card { padding: 9px; }
+            #homePanel .club-logo { height: 100px; }
+            #homePanel .vip-detail { font-size: .7rem; }
+            #homePanel .vip-detail strong { font-size: .72rem; }
+        }
+    
+
+        /* ===== Modern produce-market refresh ===== */
+        :root { --market-ink:#20243a; --market-plum:#572a68; --market-purple:#7d3c98; --market-gold:#f2b84b; --market-paper:#fbf8ff; }
+        body { font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif !important; background:#20172c !important; color:var(--market-ink); letter-spacing:.1px; }
+        .app-container { background:var(--market-paper) !important; box-shadow:0 18px 55px rgba(19,8,28,.3) !important; }
+        .top-lang-header { background:linear-gradient(120deg,#351b43,#643276) !important; }
+        .lang-select-dropdown { color:#fff !important; background:rgba(255,255,255,.12) !important; border-color:rgba(255,255,255,.25) !important; }
+        #authSection { background-color:#41204f !important; }
+        .auth-card, .auth-banner-card { border-radius:24px !important; }
+        .auth-banner-card { background:linear-gradient(130deg,#572a68,#a04c83) !important; }
+        input, select, textarea { font-family:inherit !important; }
+        button { font-family:inherit !important; letter-spacing:.15px; }
+        #homePanel.active-panel { display:grid; grid-template-columns:1fr !important; gap:16px !important; padding:16px !important; background:#f7f1fa !important; }
+        #homePanel > div:first-child { grid-column:1 / -1; padding:4px 2px 8px; }
+        #homePanel > div:first-child h3 { color:#572a68 !important; font-size:1.45rem !important; font-weight:850 !important; letter-spacing:-.3px !important; }
+        #homePanel .vip-card { display:grid; grid-template-columns: minmax(105px, 38%) minmax(0,1fr); grid-template-rows:auto 1fr auto; gap:8px 14px; padding:14px !important; border:1px solid #ead9f0 !important; border-radius:22px !important; background:linear-gradient(145deg,#fff 0%,#f8f0fb 100%) !important; box-shadow:0 8px 22px rgba(78,35,91,.09) !important; }
+        #homePanel .vip-header { grid-column:1; grid-row:1 / span 3; display:flex !important; flex-direction:column !important; align-items:stretch !important; gap:10px !important; margin:0 !important; }
+        #homePanel .club-logo { width:100% !important; height:142px !important; border-radius:16px !important; object-fit:cover; box-shadow:0 5px 14px rgba(48,20,58,.12) !important; }
+        #homePanel .vip-title { color:#572a68 !important; -webkit-text-fill-color:#572a68 !important; font-size:1rem !important; line-height:1.3 !important; font-weight:850 !important; min-height:auto !important; }
+        #homePanel .vip-detail { grid-column:2; display:flex !important; align-items:center !important; justify-content:space-between !important; gap:8px !important; margin:0 !important; padding:7px 0 !important; border-bottom:1px solid #eee2f2 !important; color:#6e6175 !important; font-size:.79rem !important; }
+        #homePanel .vip-detail strong { color:#34213c !important; text-align:right !important; font-size:.83rem !important; white-space:nowrap; font-weight:800 !important; }
+        #homePanel .vip-detail:nth-of-type(3) strong { color:#25825a !important; }
+        #homePanel .purchase-btn { grid-column:1 / -1 !important; display:flex !important; flex-direction:row !important; align-items:center !important; justify-content:space-between !important; gap:12px !important; min-height:58px !important; padding:12px 16px !important; border:0 !important; border-radius:16px !important; background:linear-gradient(110deg,#572a68,#8b3f91) !important; color:#fff !important; box-shadow:0 7px 16px rgba(87,42,104,.23) !important; }
+        #homePanel .purchase-btn span { font-size:.72rem !important; letter-spacing:1.1px !important; font-weight:800 !important; }
+        #homePanel .purchase-btn strong { display:inline-flex !important; align-items:center !important; justify-content:center !important; padding:8px 11px !important; border-radius:12px !important; background:#f2b84b !important; color:#2f1c35 !important; font-size:1rem !important; line-height:1.1 !important; font-weight:900 !important; box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); }
+        #homePanel .purchase-btn:active { transform:scale(.985); }
+        .btn-primary, .btn-submit, .primary-btn { background:linear-gradient(110deg,#572a68,#8b3f91) !important; }
+        .bottom-nav, .nav-bar, .bottom-navigation { background:#351b43 !important; }
+        @media (max-width:380px) {
+          #homePanel.active-panel { padding:11px !important; gap:12px !important; }
+          #homePanel .vip-card { grid-template-columns:minmax(88px,34%) minmax(0,1fr); gap:7px 10px; padding:10px !important; }
+          #homePanel .club-logo { height:112px !important; }
+          #homePanel .vip-detail { font-size:.7rem !important; }
+          #homePanel .vip-detail strong { font-size:.72rem !important; }
+          #homePanel .purchase-btn { padding:10px !important; gap:7px !important; }
+          #homePanel .purchase-btn span { font-size:.62rem !important; letter-spacing:.5px !important; }
+          #homePanel .purchase-btn strong { font-size:.82rem !important; padding:7px !important; }
+        }
+
+
+        /* Refreshed My Account dashboard */
+        .my-account-shell { background: linear-gradient(155deg,#171b3a 0%,#35245c 48%,#5a3477 100%); border-radius: 24px; padding: 18px; color: #fff; box-shadow: 0 12px 30px rgba(30,20,65,.22); }
+        .my-account-head { display:flex; align-items:center; gap:13px; padding:7px 2px 18px; }
+        .my-avatar { width:54px; height:54px; flex:0 0 54px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:25px; color:#292044; background:linear-gradient(135deg,#f9d976,#f3a7c7); box-shadow:0 6px 16px rgba(0,0,0,.2); }
+        .my-account-kicker { color:#d6c9f3; font-size:.76rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; }
+        .my-account-user { font-size:1.02rem; font-weight:800; overflow-wrap:anywhere; }
+        .my-balance-card { padding:18px; border-radius:19px; background:linear-gradient(120deg,#f7d982,#f4b4cf); color:#2c2142; margin-bottom:13px; box-shadow:0 8px 20px rgba(0,0,0,.12); }
+        .my-balance-label { font-size:.84rem; font-weight:700; opacity:.8; }
+        .my-balance-value { font-size:1.8rem; line-height:1.25; font-weight:900; margin-top:5px; overflow-wrap:anywhere; }
+        .my-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px; }
+        .my-stat-card { min-width:0; padding:14px 12px; border:1px solid rgba(255,255,255,.17); border-radius:16px; background:rgba(255,255,255,.09); }
+        .my-stat-label { font-size:.78rem; color:#ded6f1; margin-bottom:7px; }
+        .my-stat-value { font-size:1.02rem; font-weight:800; color:#fff; overflow-wrap:anywhere; }
+        .my-section-title { font-size:.9rem; font-weight:800; color:#f8e6aa; letter-spacing:.7px; margin:8px 0 11px; }
+        .my-action-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .my-action-grid button { min-height:62px; border:1px solid rgba(255,255,255,.16); border-radius:15px; padding:11px 9px; background:rgba(255,255,255,.1); color:#fff; font-size:.83rem; font-weight:700; line-height:1.35; box-shadow:none; }
+        .my-action-grid button:active { transform:scale(.98); background:rgba(255,255,255,.2); }
+        .my-action-grid button i { display:block; font-size:1.12rem; color:#f7d982; margin-bottom:7px; }
+        .my-dynamic-content { margin-top:15px; padding:12px; border-radius:16px; background:#fff; color:#292044; }
+        @media (max-width:360px) { .my-account-shell {padding:13px;} .my-balance-value {font-size:1.55rem;} .my-action-grid {gap:8px;} }
+
+
+        /* Refreshed Share / Team page styling */
+        #sharePanel { padding: 15px !important; background: #effaf3 !important; }
+        #sharePanel .vip-card { padding: 18px !important; border: 1px solid #c5e7d0 !important; border-radius: 22px !important; background: linear-gradient(145deg,#ffffff 0%,#e9f8ee 58%,#d9f3ed 100%) !important; box-shadow: 0 10px 28px rgba(26,112,72,.12) !important; color: #204a37 !important; }
+        #sharePanel .vip-card > div:first-child, #sharePanel .vip-card > div:nth-child(2) { padding: 12px !important; border-radius: 13px !important; background: rgba(255,255,255,.85) !important; border: 1px solid #d2eadb !important; overflow-wrap: anywhere; line-height: 1.65; }
+        #sharePanel .vip-card strong { color: #237447 !important; }
+        #sharePanel .vip-card > div:first-child span:not(.copy-btn) { color: #087f70 !important; }
+        #sharePanel .copy-btn { display: inline-flex !important; align-items: center; justify-content: center; margin-left: 7px; padding: 6px 12px !important; border-radius: 999px !important; background: linear-gradient(110deg,#247a4a,#0d9488) !important; color: #fff !important; font-weight: 800 !important; box-shadow: 0 4px 10px rgba(57,73,171,.2); }
+        #sharePanel .team-level { margin-top: 13px !important; padding: 14px !important; border: 1px solid #d2eadb !important; border-radius: 17px !important; background: rgba(255,255,255,.92) !important; box-shadow: 0 5px 14px rgba(44,62,130,.06) !important; color: #40516d !important; line-height: 1.65; }
+        #sharePanel .team-level > strong { display: inline-block; margin-bottom: 5px; color: #237447 !important; font-size: .98rem; }
+        #sharePanel .team-level span[style*="font-family: monospace"] { color: #315c45 !important; }
+        #sharePanel .vip-card small { display: block; margin-top: 14px !important; padding: 12px; border-radius: 13px; background: #ddf5e6; color: #176b4b !important; line-height: 1.6; }
+        @media (max-width: 380px) { #sharePanel { padding: 10px !important; } #sharePanel .vip-card { padding: 12px !important; } #sharePanel .team-level { padding: 10px !important; } }
+
+    </style>
+</head>
+<body>
+<div class="app-container">
+
+    <!-- Top Header for Language Selector -->
+    <div class="top-lang-header">
+        <div class="lang-select-dropdown" aria-label="Current language">🌐 English</div>
+    </div>
+
+    <!-- Auth Section with Attractive Image Background -->
+    <div id="authSection">
+        <div class="auth-card">
+            <div class="auth-banner-card">
+                <h2><i class="fas fa-seedling"></i> Vegetable Market</h2>
+            </div>
+            <div class="auth-header">
+                <h1><i class="fas fa-leaf"></i> FRESH VEGETABLE MARKET</h1>
+                <p id="txtAuthSubtitle" style="color: #e3eed9; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.6);">Explore fresh and popular vegetables</p>
+            </div>
+            <div class="toggle-buttons">
+                <div id="loginTab" class="toggle-btn active">LOG IN</div>
+                <div id="registerTab" class="toggle-btn">REGISTER</div>
+            </div>
+            <div id="loginForm">
+                <div class="form-group"><input type="tel" id="loginPhone" placeholder="Mobile Number"></div>
+                <div class="form-group"><input type="password" id="loginPassword" placeholder="Password"></div>
+                <button id="doLoginBtn">LOG IN</button>
+                <div id="loginError" class="error"></div>
+            </div>
+            <div id="registerForm" style="display:none;">
+                <div class="form-group"><input type="text" id="regName" placeholder="Full Name" autocomplete="name"></div>
+                <div class="form-group"><input type="tel" id="regPhone" placeholder="Mobile Number" autocomplete="tel"></div>
+                <div class="form-group"><input type="password" id="regPassword" placeholder="Password"></div>
+                <div class="form-group"><input type="password" id="regConfirm" placeholder="Confirm Password"></div>
+                <div class="form-group"><input type="text" id="inviteCode" placeholder="Invitation Code (optional)"></div>
+                <button id="doRegisterBtn">REGISTER</button>
+                <div id="regError" class="error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <div class="top-bar"><div class="greeting" id="greetingText">⚡ Welcome, Investor!</div></div>
+        <div class="logout-link" id="logoutBtn">← Logout</div>
+        <div class="balance-card">
+            <div id="lblMyBalance" style="color: #6d8268; font-size: 0.9rem;">💰 My Balance</div>
+            <div class="balance-amount" id="balanceDisplay">ETB 0.00</div>
+            <div style="color: #405b43; font-size: 0.9rem;"><span id="lblTotalIncome">Total Income:</span> <span id="totalIncome" style="font-weight: bold; color: #3d874b;">ETB 0.00</span></div>
+        </div>
+        <div class="quick-actions">
+            <div class="quick-btn" data-action="deposit"><i class="fas fa-wallet"></i><span id="btnNavDeposit">Deposit</span></div>
+            <div class="quick-btn" data-action="withdraw"><i class="fas fa-hand-holding-usd"></i><span id="btnNavWithdraw">Withdraw</span></div>
+            <div class="quick-btn" data-action="checkin"><i class="fas fa-calendar-check"></i><span id="btnNavCheckin">Check In</span></div>
+
+        </div>
+        <!-- Panels -->
+        <div id="homePanel" class="panel active-panel"></div>
+        <div id="ordersPanel" class="panel"></div>
+        <div id="showPanel" class="panel"></div>
+        <div id="sharePanel" class="panel"></div>
+        <div id="myPanel" class="panel"></div>
+        <div id="depositPanel" class="panel"></div>
+        <div id="withdrawPanel" class="panel"></div>
+        <div id="servicePanel" class="panel"></div>
+        <button id="floatingSupport" class="floating-support" type="button" aria-label="Open customer support" title="Customer Support"><i class="fas fa-headset"></i></button>
+        <div class="bottom-nav">
+            <div class="nav-item" data-nav="home"><i class="fas fa-home"></i><span id="navHome">Home</span></div>
+            <div class="nav-item" data-nav="orders"><i class="fas fa-shopping-bag"></i><span id="navOrders">Orders</span></div>
+            <div class="nav-item" data-nav="show"><i class="fas fa-tv"></i><span id="navShow">Show</span></div>
+            <div class="nav-item" data-nav="share"><i class="fas fa-users"></i><span id="navShare">Share</span></div>
+            <div class="nav-item" data-nav="my"><i class="fas fa-user"></i><span id="navMy">My</span></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+    // Firebase Authentication setup. Replace config only if your Firebase project differs.
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8xuW7-rPHhfMu_XfcihxbQV9ySp2L4AI",
+      authDomain: "electronics-invstement-damacos.firebaseapp.com",
+      projectId: "electronics-invstement-damacos",
+      storageBucket: "electronics-invstement-damacos.firebasestorage.app",
+      messagingSenderId: "537147586919",
+      appId: "1:537147586919:web:574a7fd4dc5647cddc17c2",
+      measurementId: "G-7M5JHBYX3K"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const firebaseAuth = firebase.auth();
+    // SMS verification intentionally disabled per user request.
+    let confirmationResult = null;
+    let pendingRegistration = null;
+    function normalizeEthiopianPhone(value) {
+      let digits = String(value || '').replace(/[\s()\-]/g, '');
+      if (digits.startsWith('+')) return digits;
+      if (digits.startsWith('00')) return '+' + digits.slice(2);
+      if (digits.startsWith('0')) return '+251' + digits.slice(1);
+      if (digits.startsWith('251')) return '+' + digits;
+      return '+251' + digits;
+    }
+</script>
+<script>
+    // --- CLOUD SYNC CONFIGURATION (Firebase Firestore) ---
+    // Each signed-in Firebase user owns users/{uid}; no public database access is required.
+    const firebaseDb = firebase.firestore();
+    let isSyncingFromCloud = false;
+
+    async function cloudGetUser(phone) {
+        try {
+            const authUser = firebaseAuth.currentUser;
+            if (!authUser) return null;
+            const snap = await firebaseDb.collection('users').doc(authUser.uid).get();
+            return snap.exists ? snap.data() : null;
+        } catch (e) {
+            console.warn('Firestore get error:', e);
+            return null;
+        }
+    }
+
+    async function cloudSaveUser(phone, data) {
+        try {
+            const authUser = firebaseAuth.currentUser;
+            if (!authUser) throw new Error('Please sign in before saving cloud data.');
+            await firebaseDb.collection('users').doc(authUser.uid).set({
+                ...data,
+                phone: phone,
+                uid: authUser.uid,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+            return true;
+        } catch (e) {
+            console.warn('Firestore save error:', e);
+            return false;
+        }
+    }
+
+    function getUserBundle(phone) {
+        return {
+            user: getUsers()[phone] || null,
+            stats: getUserStats(phone),
+            bank: getUserBank(phone),
+            purchases: getUserPurchases(phone),
+            depositReqs: getDepositRequests(phone),
+            withdrawReqs: getWithdrawRequests(phone)
+        };
+    }
+
+    async function syncUserFromCloud(phone) {
+        const cloudData = await cloudGetUser(phone);
+        if(cloudData) {
+            isSyncingFromCloud = true;
+            let users = getUsers();
+            if(cloudData.user) users[phone] = cloudData.user;
+            saveUsers(users);
+            if(cloudData.stats) saveUserStats(phone, cloudData.stats);
+            if(cloudData.bank) saveUserBank(phone, cloudData.bank);
+            if(cloudData.purchases) saveUserPurchases(phone, cloudData.purchases);
+            if(cloudData.depositReqs) saveDepositRequests(phone, cloudData.depositReqs);
+            if(cloudData.withdrawReqs) saveWithdrawRequests(phone, cloudData.withdrawReqs);
+            isSyncingFromCloud = false;
+            return true;
+        }
+        return false;
+    }
+
+    async function syncUserToCloud(phone) {
+        if(!phone || isSyncingFromCloud) return;
+        const bundle = getUserBundle(phone);
+        await cloudSaveUser(phone, bundle);
+    }
+
+    // Never send user passwords or personal data to Telegram from browser code.
+    // Language Dictionary
+    let currentLang = 'en';
+    const translations = {
+        en: {
+            authSubtitle: "Explore fresh and popular vegetables",
+            loginTab: "LOG IN",
+            registerTab: "REGISTER",
+            namePlaceholder: "Full Name",
+            phonePlaceholder: "Mobile Number",
+            pwdPlaceholder: "Password",
+            confPwdPlaceholder: "Confirm Password",
+            invitePlaceholder: "Invitation Code (optional)",
+            btnLogin: "LOG IN",
+            btnRegister: "REGISTER",
+            welcome: "⚡ Welcome, Investor!",
+            logout: "← Logout",
+            myBalance: "💰 My Balance",
+            totalIncome: "Total Income:",
+            deposit: "Deposit",
+            withdraw: "Withdraw",
+            checkin: "Check In",
+            service: "Service",
+            navHome: "Home",
+            navOrders: "Orders",
+            navShow: "Show",
+            navShare: "Share",
+            navMy: "My"
+        },
+        am: {
+            authSubtitle: "Explore fresh and popular vegetables",
+            loginTab: "LOG IN",
+            registerTab: "REGISTER",
+            namePlaceholder: "Full Name",
+            phonePlaceholder: "Mobile Number",
+            pwdPlaceholder: "Password",
+            confPwdPlaceholder: "Confirm Password",
+            invitePlaceholder: "Invitation Code (optional)",
+            btnLogin: "LOG IN",
+            btnRegister: "REGISTER",
+            welcome: "Welcome!",
+            logout: "Logout",
+            myBalance: "My Balance",
+            totalIncome: "Total Income:",
+            deposit: "Deposit",
+            withdraw: "Withdraw",
+            checkin: "Daily Check-In",
+            service: "Support",
+            navHome: "Home",
+            navOrders: "Orders",
+            navShow: "Activity",
+            navShare: "Share",
+            navMy: "My Account"
+        }
+    };
+
+    function updateLanguage(lang) {
+        currentLang = 'en';
+        lang = 'en';
+        const t = translations.en;
+        document.getElementById('txtAuthSubtitle').innerText = t.authSubtitle;
+        document.getElementById('loginTab').innerText = t.loginTab;
+        document.getElementById('registerTab').innerText = t.registerTab;
+        document.getElementById('loginPhone').placeholder = t.phonePlaceholder;
+        document.getElementById('loginPassword').placeholder = t.pwdPlaceholder;
+        document.getElementById('doLoginBtn').innerText = t.btnLogin;
+        document.getElementById('regName').placeholder = t.namePlaceholder;
+        document.getElementById('regPhone').placeholder = t.phonePlaceholder;
+        document.getElementById('regPassword').placeholder = t.pwdPlaceholder;
+        document.getElementById('regConfirm').placeholder = t.confPwdPlaceholder;
+        document.getElementById('inviteCode').placeholder = t.invitePlaceholder;
+        document.getElementById('doRegisterBtn').innerText = 'REGISTER';
+        document.getElementById('logoutBtn').innerText = t.logout;
+        document.getElementById('lblMyBalance').innerText = t.myBalance;
+        document.getElementById('lblTotalIncome').innerText = t.totalIncome;
+        document.getElementById('btnNavDeposit').innerText = t.deposit;
+        document.getElementById('btnNavWithdraw').innerText = t.withdraw;
+        document.getElementById('btnNavCheckin').innerText = t.checkin;
+        document.getElementById('btnNavService').innerText = t.service;
+        document.getElementById('navHome').innerText = t.navHome;
+        document.getElementById('navOrders').innerText = t.navOrders;
+        document.getElementById('navShow').innerText = t.navShow;
+        document.getElementById('navShare').innerText = t.navShare;
+        document.getElementById('navMy').innerText = t.navMy;
+        updateDashboardUI();
+    }
+
+    // Interface language is fixed to English.
+
+    // Valid Guest/Chest Promo Codes List
+    const validGuestCodes = [
+        "digjgwfkfdh", "qxplmzantye", "wvbncsklrui", "ftgyhjklopm", "zxcvbnmasdf",
+        "qwertyuiopq", "asdfghjklzx", "yuiopasdfgh", "jklzxcvbnmq", "wertyuiopas",
+        "dfghjklxcvb", "nbmqwertyui", "opasdfghjkl", "zxcvbnmtyui", "qwertyuioplk",
+        "mnbvcxzasdf", "lkjhgfdsapq", "iuytrewqazx", "plokmijnuhb", "tgvfcdxswza",
+        "qazwsxedcrf", "tgbyhnujmik", "olyhngbfvdc", "exswzaqplok", "mjnhbgvfcdx",
+        "qwertyuiopl", "mnbvcxzlkjh", "gfdsapoiuyt", "rewqazxswed", "cvbnmkiuytg",
+        "fdssawqqwer", "tyuiopplkjh", "gfdssaazxcv", "bnmkkjhgfd",  "wertyuiopps",
+        "asdfghjklmn", "zxcvbnmplok", "iuytrewqasd", "fghjklzxcvb", "qwertyuiopl",
+        "mnbvcxzrewq", "lkjhgfdsayu", "poiuytrewq",  "asdfghjklzx", "cvbnmkiuyt",
+        "qwertyuiop",  "mnbvcxzasd",  "lkjhgfdsap",  "iuytrewqaz",  "plokmijnuh",
+        "tgvfcdxswz",  "qazwsxedcr",  "tgbyhnujmi",  "olyhngbfvd",  "exswzaqplo",
+        "mjnhbgvfcd",  "qwertyuiop",  "mnbvcxzlkj",  "gfdsapoiuy",  "rewqazxswa",
+        "cvbnmkiuyt",  "fdssawqqwe",  "tyuiopplkj",  "gfdssaazxc",  "bnmkkjhgfd",
+        "wertyuiopp",  "asdfghjklm",  "zxcvbnmplo",  "iuytrewqas",  "fghjklzxcv",
+        "qwertyuiop",  "mnbvcxzrew",  "lkjhgfdsay",  "poiuytrewq",  "asdfghjklz",
+        "cvbnmkiuyt",  "qwertyuiop",  "mnbvcxzasd",  "lkjhgfdsap",  "iuytrewqaz",
+        "plokmijnuh",  "tgvfcdxswz",  "qazwsxedcr",  "tgbyhnujmi",  "olyhngbfvd",
+        "exswzaqplo",  "mjnhbgvfcd",  "qwertyuiop",  "mnbvcxzlkj",  "gfdsapoiuy",
+        "rewqazxswa",  "cvbnmkiuyt",  "fdssawqqwe",  "tyuiopplkj",  "gfdssaazxc",
+        "bnmkkjhgfd",  "wertyuiopp",  "asdfghjklm",  "zxcvbnmplo",  "iuytrewqas",
+        "fghjklzxcv",  "qwertyuiop",  "mnbvcxzrew",  "lkjhgfdsay",  "poiuytrewq",
+        "asdfghjklz",  "cvbnmkiuyt",  "qwertyuiop",  "mnbvcxzasd",  "lkjhgfdsap",
+        "iuytrewqaz",  "plokmijnuh",  "tgvfcdxswz",  "qazwsxedcr",  "tgbyhnujmi",
+        "olyhngbfvd",  "exswzaqplo",  "mjnhbgvfcd",  "qwertyuiop",  "mnbvcxzlkj",
+        "gfdsapoiuy",  "rewqazxswa",  "cvbnmkiuyt",  "fdssawqqwe",  "tyuiopplkj",
+        "gfdssaazxc",  "bnmkkjhgfd",  "wertyuiopp",  "asdfghjklm",  "zxcvbnmplo",
+        "iuytrewqas",  "fghjklzxcv",  "qwertyuiop",  "mnbvcxzrew",  "lkjhgfdsay",
+        "poiuytrewq",  "asdfghjklz",  "cvbnmkiuyt",  "qwertyuiop",  "mnbvcxzasd",
+        "lkjhgfdsap",  "iuytrewqaz",  "plokmijnuh",  "tgvfcdxswz",  "qazwsxedcr",
+        "tgbyhnujmi",  "olyhngbfvd",  "exswzaqplo",  "mjnhbgvfcd",  "qwertyuiop",
+        "mnbvcxzlkj",  "gfdsapoiuy",  "rewqazxswa",  "cvbnmkiuyt",  "fdssawqqwe",
+        "tyuiopplkj",  "gfdssaazxc",  "bnmkkjhgfd",  "wertyuiopp",  "asdfghjklm"
+    ];
+
+    function getCodeInfo(code) {
+        let codeData = JSON.parse(localStorage.getItem("fgi_guest_code_" + code) || '{"usedUsers":[], "count":0}');
+        return codeData;
+    }
+
+    // DATA MODELS
+    let currentUser = null;
+    function getUsers() { return JSON.parse(localStorage.getItem("fgi_users") || "{}"); }
+    function saveUsers(u) { localStorage.setItem("fgi_users", JSON.stringify(u)); }
+    function getUserStats(phone) { let s = localStorage.getItem("fgi_stats_"+phone); return s ? JSON.parse(s) : { balance:200, totalIncome:0, totalDeposit:0, totalWithdraw:0, lastCheckIn:null }; }
+    function saveUserStats(phone, stats) { 
+        localStorage.setItem("fgi_stats_"+phone, JSON.stringify(stats)); 
+        if(currentUser === phone && !isSyncingFromCloud) syncUserToCloud(phone);
+    }
+    function getUserBank(phone) { let b = localStorage.getItem("fgi_bank_"+phone); return b ? JSON.parse(b) : null; }
+    function saveUserBank(phone, bank) { 
+        localStorage.setItem("fgi_bank_"+phone, JSON.stringify(bank)); 
+        if(currentUser === phone && !isSyncingFromCloud) syncUserToCloud(phone);
+    }
+    function getUserPurchases(phone) { let p = localStorage.getItem("fgi_purch_"+phone); return p ? JSON.parse(p) : []; }
+    function saveUserPurchases(phone, p) { 
+        localStorage.setItem("fgi_purch_"+phone, JSON.stringify(p)); 
+        if(currentUser === phone && !isSyncingFromCloud) syncUserToCloud(phone);
+    }
+    function getDepositRequests(phone) { let d = localStorage.getItem("fgi_dep_req_"+phone); return d ? JSON.parse(d) : []; }
+    function saveDepositRequests(phone, d) { 
+        localStorage.setItem("fgi_dep_req_"+phone, JSON.stringify(d)); 
+        if(currentUser === phone && !isSyncingFromCloud) syncUserToCloud(phone);
+    }
+    function getWithdrawRequests(phone) { let w = localStorage.getItem("fgi_wd_req_"+phone); return w ? JSON.parse(w) : []; }
+    function saveWithdrawRequests(phone, w) { 
+        localStorage.setItem("fgi_wd_req_"+phone, JSON.stringify(w)); 
+        if(currentUser === phone && !isSyncingFromCloud) syncUserToCloud(phone);
+    }
+    function getReferralTree() { return JSON.parse(localStorage.getItem("fgi_refs") || "{}"); }
+    function saveReferralTree(t) { localStorage.setItem("fgi_refs", JSON.stringify(t)); }
+
+    // --- PHONE MASKING (first 3 + last 2 digits only) ---
+    function maskPhone(phone) {
+        if(!phone) return '';
+        let p = String(phone).trim();
+        if(p.length <= 5) {
+            if(p.length <= 2) return p;
+            return p.slice(0,1) + '***' + p.slice(-1);
+        }
+        return p.slice(0,3) + '***' + p.slice(-2);
+    }
+
+    // --- GET REFERRAL TEAM GROUPED BY LEVEL 1, 2, 3 ---
+    function getTeamByLevels(phone) {
+        let users = getUsers();
+        let levels = { 1: [], 2: [], 3: [] };
+        for(let p in users) {
+            if(users[p] && users[p].referrer === phone) levels[1].push(p);
+        }
+        for(let p in users) {
+            if(users[p] && levels[1].includes(users[p].referrer)) levels[2].push(p);
+        }
+        for(let p in users) {
+            if(users[p] && levels[2].includes(users[p].referrer)) levels[3].push(p);
+        }
+        return levels;
+    }
+
+    function isMemberActive(memberPhone) {
+        try {
+            let s = getUserStats(memberPhone);
+            let purch = getUserPurchases(memberPhone);
+            return (s.totalDeposit > 0) || (purch && purch.length > 0);
+        } catch(e) { return false; }
+    }
+
+    // Fresh vegetable product levels (levels 10 and 11 removed)
+    const vipLevels = [
+        { id:1, name:"Level 1 - Tomato", logo:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400&auto=format&fit=crop&q=80", price:800, daily:70, total:21000, days:300 },
+        { id:2, name:"Level 2 - Potato", logo:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&auto=format&fit=crop&q=80", price:1300, daily:110, total:33000, days:300 },
+        { id:3, name:"Level 3 - Carrot", logo:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400&auto=format&fit=crop&q=80", price:4000, daily:350, total:105000, days:300 },
+        { id:4, name:"Level 4 - Onion", logo:"https://images.unsplash.com/photo-1508747703725-719777637510?w=400&auto=format&fit=crop&q=80", price:8500, daily:750, total:225000, days:300 },
+        { id:5, name:"Level 5 - Broccoli", logo:"https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400&auto=format&fit=crop&q=80", price:13300, daily:1210, total:363000, days:300 },
+        { id:6, name:"Level 6 - Bell Pepper", logo:"https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400&auto=format&fit=crop&q=80", price:30700, daily:2870, total:861000, days:300 },
+        { id:7, name:"Level 7 - Cucumber", logo:"https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&auto=format&fit=crop&q=80", price:57300, daily:5530, total:1659000, days:300 },
+        { id:8, name:"Level 8 - Cauliflower", logo:"https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=400&auto=format&fit=crop&q=80", price:114700, daily:11470, total:3441000, days:300 },
+        { id:9, name:"Level 9 - Spinach", logo:"https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&auto=format&fit=crop&q=80", price:160000, daily:16670, total:5001000, days:300 }
+    ];
+
+    // --- NEW TIN CODES (1-2200) ---
+    const validTINsByLevel = {
+        1: [
+            "W2O2W3K6C5P2", "L6T2G6X1V6Q9", "A3V2Q9N6O0R9", "P7A2A2D4K4S6", "E1F2K5Q9D8T6",
+            "T5H2U1G7W9U6", "I9M2E4T2S3V3", "X3O2O7J7L7Z3", "M7T2Y0W5E1A0", "B1Y9I3M0X2B0",
+            "Q5A9S6Z8T6C7", "F9F9C2P3M0D7", "U3H9M5C8F4E7", "J7M9W8S6Y5F4", "Y4R9G1F1U9G4",
+            "N8T9Q4V9N3H1", "C2Y9A0I4G7I1", "R6A9K3Y9Z8J8", "G0F6U6L7V2N8", "V4K6E9B2O6O5",
+            "K8M6O2O0H0P5", "Z2R6Y8E5A1Q5", "O6T6F1R0W5R2", "D0Y6P4H8P9S2", "S4D6Z7U3I3T9",
+            "H1F6J0K1E4U9", "W5K6T6X6X8V6", "L9M3D9N1Q2W6", "A3R3N2A9J3X3", "P7W3X5Q4F7B3",
+            "E1Y3H8D2Y1C3", "T5D3R1T7R5D0", "I9F3B7G2K6E0", "X3K3L0W0G0F7", "M7P3V3J5Z4G7",
+            "B1R3F6Z3S8H4", "Q5W3P9M8L9I4", "F2Y0Z5C3H3J4", "U6D0J8S1A7K1", "J0I0T1F6T1L1",
+            "Y4K0D4V4M2M8", "N8P0N7I9I6Q8", "C2R0X3Y4B0R5", "R6W0H6L2U4S5", "G0B0R9B7Q5T2",
+            "V4D0B2O5J9U2", "K8I7L5E0C3V2", "Z2K7V8R5V7W9", "O6P7F4H3R8X9", "D3U7P7U8K2Y6",
+            "S7W7Z0K6D6Z6", "H1B7J3X1W0A3", "W5D7T6N6S1E3", "L9I7A2A4L5F3", "A3N7K5Q9E9G0",
+            "P7P4U8D7X3H0", "E1U4E1T2T4I7", "T5Z4O4G7M8J7", "I9B4Y0W5F2K4", "X3G4I3J0Y6L4",
+            "M7I4S6Z8U7M1", "B4N4C9M3N1N1", "Q8S4M2C8G5O1", "F2U4W8P6C9S8", "U6Z1G1F1V0T8",
+            "J0B1Q4S9O4U5", "Y4G1A7I4H8V5", "N8L1K0V9D9W2", "C2N1U3L7W3X2", "R6S1E9Y2P7Y9",
+            "G0U1O2O0I1Z9", "V4Z1Y5E5E2A9", "K1E1I8R0X6B6", "Z5G8S1H8Q0C6", "O9L8C7U3J4G3",
+            "D3N8M0K1F5H3", "S7S8W3X6Y9I0", "H1X8G6N1R3J0", "W5Z8Q9A9K7K0", "L9E8A5Q4G8L7",
+            "A3G8K8D2Z2M7", "P7L8U1T7S6N4", "E1Q8E4G2O0O4", "T5S5O7W0H1P1", "I2X5V3J5A5Q1",
+            "X6Z5F6Z0T9U8", "M0E5P9M8P3V8", "B4J5Z2C3I4W8", "Q8L5J5P1B8X5", "F2Q5T8F6U2Y5",
+            "U6S5D4S1Q6Z2", "J0X5N7I9J7A2", "Y4C2X0V4C1B9", "N8E2H3L2V5C9", "C2J2R6Y7R9D6",
+            "R6L2B2O2K0E6", "G3Q2L5B0D4I6", "V7V2V8R5W8J3", "K1X2F1E3S2K3", "Z5C2P4U8L3L0",
+            "O9E2Z0H3E7M0", "D3J9J3X1A1N7", "S7O9T6K6T5O7", "H1Q9D9A4M6P7", "W5V9N2Q9F0Q4",
+            "L9X9X8D4B4R4", "A3C9H1T2U5S1", "P7H9R4G7N9T1", "E4J9B7W5G3X8", "T8O9L0J0C7Y8",
+            "I2Q6V3Z5V8Z5", "X6V6F9M3O2A5", "M0A6P2C8H6B5", "B4C6Z5P6D0C2", "Q8H6J8F1W1D2",
+            "F2J6T1S6P5E9", "U6O6A7I4I9F9", "J0T6K0V9E3G6", "Y4V6U3L7X4H6", "N1A6E6Y2Q8L3",
+            "C5C3O9O7M2M3", "R9H3Y5B5F6N3", "G3M3I8R0Y7O0", "V7O3S1E8R1P0", "K1T3C4U3N5Q7",
+            "Z5V3M7H8G9R7", "O9A3W0X6Z0S4", "D3F3G6K1S4T4", "S7H3Q9A9O8U4", "H1M0A2N4H2V1",
+            "W5O0K5D9A3Z1", "L2T0U8Q7T7A8", "A6Y0E4G2P1B8", "P0A0O7T0I5C5", "E4F0Y0J5B6D5",
+            "T8H0I3W0U0E2", "I2M0S6M8Q4F2", "X6R0C2C3J8G2", "M0T7M5P1C9H9", "B4Y7W8F6Y3I9",
+            "Q8A7G1S1R7J6", "F2F7Q4I9K1N6", "U6K7A0V4D2O3", "J3M7K3L2Z6P3", "Y7R7U6Y7S0Q0",
+            "N1T7E9O2L1R0", "C5Y7O2B0E5S0", "R9D4V5R5A9T7", "G3F4F1E3T3U7", "V7K4P4U8M4V4",
+            "K1M4Z7H3F8W4", "Z5R4J0X1B2X1", "O9W4T3K6U6B1", "D3Y4D9A4N7C1", "S7D4N2N9G1D8",
+            "H4F4X5D4C5E8", "W8K1H8Q2V9F5", "L2P1R1G7O0G5", "A6R1B7T5K4H2", "P0W1L0J0D8I2",
+            "E4Y1V3W5W2J9", "T8D1F6M3P3K9", "I2I1P9Z8L7L9", "X6K1Z5P6E1P6", "M0P1J8C1X5Q6",
+            "B4R1T1S6Q6R3", "Q8W8D4F4M0S3", "F5B8N7V9F4T0", "U9D8X0I7Y8U0", "J3I8H6Y2R9V0",
+            "Y7K8R9O7N3W7", "N1P8B2B5G7X7", "C5U8L5R0Z1Y4", "R9W8V8E8S2Z4", "G3B8F4U3O6A1",
+            "V7D5P7H8H0E1", "K1I5Z0X6A4F8", "Z5N5J3K1T5G8", "O2P5Q6A9P9H8", "D6U5A2N4I3I5",
+            "S0W5K5D9B7J5", "H4B5U8Q7X8K2", "W8G5E1G2Q2L2", "L2I5O4T7J6M9", "A6N2Y7J5C7N9",
+            "P0P2I3W0Y1O6", "E4U2S6M8R5S6", "T8Z2C9Z3K9T6", "I2B2M2P8D0U3", "X6G2W5C6Z4V3",
+            "M3I2G1S1S8W0", "B7N2Q4F9L2X0", "Q1S2A7V4E3Y7", "F5U9K0I9A7Z7", "U9Z9U3Y7T1A7",
+            "J3B9E9L2M5B4", "Y7G9O2B0F6C4", "N1L9Y5O5B0G1", "C5N9I8E0U4H1", "R9S9S1R8N8I8"
+        ],
+        2: [
+            "G3U9C7H3J9J8", "V7Z9M0U1C3K5", "K4E9W3K6V7L5", "Z8G6G6X1O1M5", "O2L6Q9N9K2N2",
+            "D6Q6A2D4D6O2", "S0S6K8Q2W0P9", "H4X6U1G7P4Q9", "W8Z6E4T2L5U6", "L2E6L7J0E9V6",
+            "A6J6V0W5X3W3", "P0L6F6M3Q7X3", "E4Q3P9Z8M8Y3", "T8S3Z2P3F2Z0", "I5X3J5C1Y6A0",
+            "X9C3T8S6R0B7", "M3E3D4F4N1C7", "B7J3N7V9G5D4", "Q1L3X0I4Z9E4", "F5Q3H3Y2V0I4",
+            "U9V3R6L7O4J1", "J3X0B2B5H8K1", "Y7C0L5O0A2L8", "N1E0V8E5W3M8", "C5J0F1R3P7N5",
+            "R2O0P4H8I1O5", "G6Q0Z7U6B5P2", "V0V0J3K1X6Q2", "K4X0T6X6Q0R2", "Z8C0D9N4J4S9",
+            "O2H7N2A9C8W9", "D6J7X5Q7Y9X6", "S0O7H1D2R3Y6", "H4Q7R4T7K7Z3", "W8V7B7G5D1A3",
+            "L2A7L0W0Z2B0", "A6C7V3J8S6C0", "P3H7F9Z3L0D0", "E7J7P2P8H4E7", "T1O4Z5C6A5F7",
+            "I5T4G8S1T9G4", "X9V4Q1F9M3H4", "M3A4A4V4I7L1", "B7C4K0I9B8M1", "Q1H4U3Y7U2N1",
+            "F5M4E6L2N6O8", "U9O4O9B0J0P8", "J3T4Y2O5C1Q5", "Y7V4I8E0V5R5", "N4A1S1R8O9S2",
+            "C8F1C4H3K3T2", "R2H1M7U1D4U9", "G6M1W0K6W8V9", "V0O1G6X1P2Z9", "K4T1Q9N9L6A6",
+            "Z8Y1A2A4E7B6", "O2A1K5Q2X1C3", "D6F1U8D7T5D3", "S0H8E4T2M6E0", "H4M8O7G0F0F0",
+            "W8R8Y0W5Y4G0", "L5T8I3J3U8H7", "A9Y8S6Z8N9I7", "P3A8C9M3G3J4", "E7F8M5C1Z7N4",
+            "T1K8W8P6V1O1", "I5M8G1F4O2P1", "X9R5Q4S9H6Q8", "M3T5A7I4A0R8", "B7Y5K3V2W4S8",
+            "Q1D5U6L7P5T5", "F5F5E9B5I9U5", "U2K5L2O0B3V2", "J6M5V5E5X7W2", "Y0R5F1R3Q8X9",
+            "N4W5P4H8J2B9", "C8Y2Z7U6F6C6", "R2D2J0K1Y0D6", "G6F2T3X6R1E6", "V0K2D9N4K5F3",
+            "K4P2N2A9G9G3", "Z8R2X5Q7Z3H0", "O2W2H8D2S4I0", "D6Y2R1T7L8J7", "S3D2B4G5H2K7",
+            "H7I2L0W0A6L7", "W1K9V3J5T7P4", "L5P9F6Z3M1Q4", "A9R9P9M8I5R1", "P3W9Z2C6B9S1",
+            "E7B9J8P1U0T8", "T1D9T1F6N4U8", "I5I9D4S4J8V5", "X9K9N7I9C2W5", "M3P9X0V7V3X5",
+            "B7U6H6L2R7Y2", "Q4W6R9Y7K1Z2", "F8B6B2O5D2D9", "U2D6L5B0W6E9", "J6I6V8R8S0F6",
+            "Y0N6F1E3L4G6", "N4P6P7U8E5H3", "C8U6Z0H6X9I3", "R2W6G3X1T3J3", "G6B3Q6N9M7K0",
+            "V0G3A9A4F8L0", "K4I3K5Q9Y2M7", "Z8N3U8D7U6N7", "O5P3E1T2N0O4", "D9U3O4G0G1S4",
+            "S3Z3Y7W5Z5T4", "H7B3I3J0V9U1", "W1G3S6Z8O3V1", "L5I0C9M3H4W8", "A9N0M2C1D8X8",
+            "P3S0W5P6W2Y5", "E7U0G1F1P6Z5", "T1Z0Q4S9I7A2", "I5B0A7I4E1B2", "X2G0K0V2X5C2",
+            "M6L0U3L7Q9G9", "B0N0E6Y2J0H9", "Q4S0O2O0F4I6", "F8U7Y5B5Y8J6", "U2Z7I8R3R2K3",
+            "J6E7S1E8K3L3", "Y0G7C4U3G7M0", "N4L7M0H1Z1N0", "C8N7W3X6S5O0", "R2S7G6K4L6P7",
+            "G6X7Q9A9H0Q7", "V3Z7A2N4A4U4", "K7E4K8D2T8V4", "Z1G4U1Q7P9W1", "O5L4B4G5I3X1",
+            "D9Q4L7T0B7Y1", "S3S4V0J5U8Z8", "H7X4F6Z3Q2A8", "W1Z4P9M8J6B5", "L5E4Z2C6C0C5",
+            "A9J4J5P1V1D2", "P3L1T8F6R5E2", "E7Q1D1S4K9I9", "T4S1N7I9D3J9", "I8X1X0V7W4K9",
+            "X2C1H3L2S8L6", "M6E1R6Y7L2M6", "B0J1B9O5E6N3", "Q4L1L5B0X7O3", "F8Q1V8R8T1P0",
+            "U2V8F1E3M5Q0", "J6X8P4U8F9R7", "Y0C8Z7H6B0S7", "N4H8J3X1U4W7", "C8J8T6K9N8X4",
+            "R5O8D9A4G2Y4", "G9Q8N2N9C3Z1", "V3V8X5D7V7A1", "K7A8H8Q2O1B8", "Z1C5R4G0H5C8",
+            "O5H5B7T5D6D8", "D9J5L0J0W0E5", "S3O5V3W8P4F5", "H7T5F6M3I8G2", "W1V5P2Z1E9K2",
+            "L5A5W5P6X3L9", "A2C5G8C1Q7M9", "P6H5Q1S9J1N6", "E0M5A4F4F2O6", "T4O2K0V2Y6P6",
+            "I8T2U3L7R0Q3", "X2V2E6Y2N4R3", "M6A2O9O0G5S0", "B0F2Y2B5Z9T0", "Q4H2I8R3S3U7",
+            "F8M2S1E8O4V7", "U2O2C4U3H8Z7", "J6T2M7H1A2A4", "Y3Y9W0X6T6B4", "N7A9G3K4P7C1",
+            "C1F9Q9A9I1D1", "R5H9A2N4B5E8", "G9M9K5D2U9F8", "V3R9U8Q7Q0G5", "K7T9E1G2J4H5",
+            "Z1Y9O7T0C8I5", "O5A9Y0J5V2J2", "D9F6I3W3R3N2", "S3K6S6M8K7O9", "H7M6C9Z3D1P9",
+            "W4R6M5P1W5Q6", "L8T6W8C6S6R6", "A2Y6G1S4L0S3", "P6D6Q4F9E4T3", "E0F6A7V4A8U3",
+            "T4K6K3I2T9V0", "I8M3R6Y7M3W0", "X2R3B9L5F7X7", "M6W3L2B0B1B7", "B0Y3V5O5U2C4"
+        ],
+        3: [
+            "Q4D3F8E3N6D4", "F8F3P4R8G0E4", "U5K3Z7H6C4F1", "J9P3J0U1V5G1", "Y3R3T3K6O9H8",
+            "N7W3D6A4H3I8", "C1Y0N2N9D7J5", "R5D0X5D7W8K5", "G9I0H8Q2P2L2", "V3K0R1G7I6P2",
+            "K7P0B4T5E0Q2", "Z1R0L0J0X1R9", "O5W0V3W8Q5S9", "D2B0F6M3M9T6", "S6D0P9Z8F0U6",
+            "H0I7Z2P6Y4V3", "W4K7J5C1R8W3", "L8P7T1S9N2X0", "A2U7D4F4G3Y0", "P6W7N7V9Z7Z0",
+            "E0B7X0I7S1D7", "T4D7H3Y2O5E7", "I8I7R9L0H6F4", "X2N7B2B5A0G4", "M6P4L5O0T4H1",
+            "B3U4V8E8P8I1", "Q7W4F1R3I9J1", "F1B4P7H1B3K8", "U5G4W0U6U7L8", "J9I4G3K1Q1M5",
+            "Y3N4Q6X9J2N5", "N7P4A9N4C6R2", "C1U4K5A2Y0S2", "R5Z1U8Q7R4T9", "G9B1E1D2K5U9",
+            "V3G1O4T0D9V9", "K7I1Y7G5Z3W6", "Z4N1I0W3S7X6", "O8S1S6M8L8Y3", "D2U1C9Z3E2Z3",
+            "S6Z1M2P1A6A0", "H0B1W5C6T0B0", "W4G8G8S4M1C7", "L8L8Q4F9F5G7", "A2N8A7V4B9H7",
+            "P6S8K0I2U3I4", "E0U8U3Y7N4J4", "T4Z8E6L5G8K1", "I8E8O2B0C2L1", "X5G8Y5O5V6M8",
+            "M9L8I8E3O7N8", "B3N8S1R8K1O8", "Q7S5C4H6D5P5", "F1X5M0U1W6Q5", "U5Z5W3K6P0U2",
+            "J9E5G6X4L4V2", "Y3G5Q9N9E8W9", "N7L5A2A7X9X9", "C1Q5K5Q2Q3Y6", "R5S5R1D7M7Z6",
+            "G9X5B4T5F1A6", "V6Z2L7G0Y2B3", "K0E2V0W8R6C3", "Z4J2F3J3N0D0", "O8L2P9Z8G4E0",
+            "D2Q2Z2M6Z5I7", "S6S2J5C1S9J7", "H0X2T8P9O3K7", "W4C2D1F4H7L4", "L8E2N7S9A8M4",
+            "A2J9X0I7W2N1", "P6L9H3Y2P6O1", "E3Q9R6L0I0P8", "T7V9B9B5B1Q8", "I1X9L2O0X5R5",
+            "X5C9V8E8Q9S5", "M9E9F1R3J3W5", "B3J9P4H1C4X2", "Q7O9Z7U6Y8Y2", "F1Q6J0K1R2Z9",
+            "U5V6T6X9K6A9", "J9X6D9N4D7B6", "Y3C6N2A2Z1C6", "N7H6X5Q7S5D3", "C4J6H8D2L9E3",
+            "R8O6R4T0E0F3", "G2Q6B7G5A4G0", "V6V6L0W0T8K0", "K0A6V3J8M2L7", "Z4C3F6Z3I3M7",
+            "O8H3M2M1B7N4", "D2J3W5C6U1O4", "S6O3G8P1N2P4", "H0T3Q1F9J6Q1", "W4V3A4S4C0R1",
+            "L8A3K7I2V4S8", "A5C3U3V7O5T8", "P9H3E6L2K9U5", "E3M0O9Y0D3Y5", "T7O0Y2O5W7Z2",
+            "I1T0I5B3P8A2", "X5Y0S1R8L2B2", "M9A0C4E3E6C9", "B3F0M7U1X0D9", "Q7H0W0K6Q1E6",
+            "F1M0G3X4M5F6", "U5R0Q9N9F9G3", "J9T7A2A4Y3H3", "Y6Y7K5Q2U4I0", "N0A7U8D7N8J0",
+            "C4F7E1T5G2N0", "R8K7O7G0Z6O7", "G2M7Y0W5V7P7", "V6R7I3J3O1Q4", "K0T7S6Z8H5R4",
+            "Z4Y7C9M6A9S1", "O8D4M2C1W0T1", "D2F4W8P6P4U1", "S6K4G1F4I8V8", "H3M4Q4S9B2W8",
+            "W7R4A7I7X3X5", "L1W4H0V2Q7B5", "A5Y4R6L7J1C2", "P9D4B9Y5C5D2", "E3F4L2O0Y6E9",
+            "T7K1V5B8R0F9", "I1P1F8R3K4G9", "X5R1P4E8G5H6", "M9W1Z7U6Z9I6", "B3Y1J0H1S3J3",
+            "Q7D1T3X9L7K3", "F4I1D6K4H8L0", "U8K1N9A9A2P0", "J2P1X5N7T6Q7", "Y6R1H8D2M0R7",
+            "N0W8R1Q0I1S7", "C4B8B4G5B5T4", "R8D8L7W0U9U4", "G2I8V3J8N3V1", "V6K8F6Z3J4W1",
+            "K0P8P9M1C8X8", "Z4U8Z2C6V2Y8", "O8W8J5P1O6Z8", "D5B8T1F9K7D5", "S9D5D4S4D1E5",
+            "H3I5N7I2W5F2", "W7N5X0V7S9G2", "L1P5H3L2L0H9", "A5U5R9Y0E4I9", "P9W5B2O5X8J6",
+            "E3B5L5B3T2K6", "T7G5V8R8M3L6", "I1I5C1E3F7M3", "X5N2M4U1Y1N3", "M9P2W0H6U5R0",
+            "B6U2G3X4N6S0", "Q0Z2Q6K9G0T7", "F4B2A9A4Z4U7", "U8G2K2N2V8V4", "J2I2U8D7O9W4",
+            "Y6N2E1Q5H3X4", "N0S2O4G0A7Y1", "C4U9Y7T5W1Z1", "R8Z9I0J3P2A8", "G2B9S6W8I6B8",
+            "V6G9C9M6E0F5", "K3L9M2Z1X1G5", "Z7N9W5P6Q5H5", "O1S9G8C4J9I2", "D5U9Q4S9F3J2",
+            "S9Z9A7F7Y4K9", "H3E9K0V2R8L9", "W7G6U3L7K2M6", "L1L6E6Y5G6N6", "A5N6O9O0Z7O3",
+            "P9S6Y5B8S1P3", "E3X6I8R3L5Q3", "T7Z6S1E8H9U0", "I4E6C4U6A0V0", "X8G6M7H1T4W7",
+            "M2L6W3X9M8X7", "B6Q3G6K4I2Y4", "Q0S3Q9A9B3Z4", "F4X3A2N7U7A4", "U8Z3H5D2Q1B1",
+            "J2E3R1Q7J5C1", "Y6J3B4G5C6D8", "N0L3L7T0V0E8", "C4Q3V0J8R4I5", "R8S3F3W3K8J5",
+            "G5X0P9M8D9K2", "V9C0Z2Z6W3L2", "K3E0J5P1S7M2", "Z7J0T8C9L1N9", "O1L0D1S4E2O9",
+            "D5Q0N4F9X6P6", "S9V0X0V7T0Q6", "H3X0H3I2M4R3", "W7C0R6Y0F5S3", "L1E7B9L5Y9W0"
+        ],
+        4: [
+            "A5J7L2B0U3X0", "P9O7V8O8N7Y0", "E6Q7F1E3G8Z7", "T0V7P4R1Z2A7", "I4X7Z7H6V6B4",
+            "X8C7J0X1O7C4", "M2H7T6K9H1D1", "B6J7D9A4D5E1", "Q0O7N2N2W9F1", "F4Q4X5D7P0G8",
+            "U8V4H8Q2I4K8", "J2A4R1G0E8L5", "Y6C4B7T5X2M5", "N3H4L0J3Q3N2", "C7J4V3W8J7O2",
+            "R1O4C6M3F1P9", "G5T4M9Z1Y5Q9", "V9V4W5P6R6R9", "K3A1G8C4K0S6", "Z7C1Q1S9G4T6",
+            "O1H1A4F4Z8U3", "D5M1K7V2S9Y3", "S9O1U3I7L3Z0", "H3T1E6Y5H7A0", "W7V1O9L0A1B7",
+            "L4A1Y2B5T2C7", "A8F1I5O3P6D7", "P2H8S1E8I0E4", "E6M8C4R6B4F4", "T0O8M7H1U5G1",
+            "I4T8W0U6Q9H1", "X8Y8G3K4J3I8", "M2A8Q6X9C7M8", "B6F8A2N7V8N8", "Q0H8K5A2R2O5",
+            "F4M8U8Q7K6P5", "U8R5E1D5D0Q2", "J5T5O4T0W1R2", "Y9Y5Y0J8S5S9", "N3A5I3W3L9T9",
+            "C7F5S6M8E3U6", "R1K5C9Z6X4V6", "G5M5M2P1T8W6", "V9R5W8C9M2X3", "K3T5G1S4F3B3",
+            "Z7Y2Q4F9B7C0", "O1D2X7V7U1D0", "D5F2H0I2N5E7", "S9K2R6Y0G6F7", "H6P2B9L5C0G4",
+            "W0R2L2B0V4H4", "L4W2V5O8O8I4", "A8Y2F8E3H9J1", "P2D2P1R1D3K1", "E6I2Z7H6W7L8",
+            "T0K9J0U1P1P8", "I4P9T3K9I2Q5", "X8R9D6X4E6R5", "M2W9N9N2X0S5", "B6B9X5A7Q4T2",
+            "Q3D9H8Q2J5U2", "F7I9R1D0F9V9", "U1K9B4T5Y3W9", "J5P9L7G3R7X6", "Y9U6V3W8N8Y6",
+            "N3W6F6J3G2Z3", "C7B6P9Z1Z6D3", "R1D6Z2M6S0E3", "G5I6J5C4O1F0", "V9N6T8P9H5G0",
+            "K3P6D4F4A9H7", "Z7U6N7V2T3I7", "O4W6X0I7P4J4", "D8B3H3Y5I8K4", "S2G3R6L0B2L4",
+            "H6I3B2B5U6M1", "W0N3L5O3Q7N1", "L4P3S8E8J1R8", "A8U3C1R6C5S8", "P2Z3M4H1V9T5",
+            "E6B3W0U6R0U5", "T0G3G3K4K4V2", "I4I0Q6X9D8W2", "X8N0A9N7Z9X2", "M5S0K2A2S3Y9",
+            "B9U0U8Q7L7Z9", "Q3Z0E1D5E1A6", "F7B0O4T0A2B6", "U1G0Y7G5T6F3", "J5L0I0W3M0G3",
+            "Y9N0S3J8F4H0", "N3S0C9Z6B5I0", "C7U7M2M1U9J0", "R1Z7W5C6N3K7", "G5E7G8P4G7L7",
+            "V9G7Q1F9C8M4", "K6L7A7S7V2N4", "Z0N7K0I2O6O1", "O4S7U3V7H0P1", "D8X7E6L5D1T1",
+            "S2Z7O9Y0W5U8", "H6E4Y5O8P9V8", "W0G4I8B3L3W5", "L4L4S1R8E4X5", "A8Q4C4H6X8Y2",
+            "P2S4M7U1Q2Z2", "E6X4W3K9M6A9", "T3Z4G6X4F7B9", "I7E4N9N9Y1C9", "X1J4X2A7R5D6",
+            "M5L1H5Q2N9E6", "B9Q1R8D0G0I3", "Q3S1B4T5Z4J3", "F7X1L7G0S8K0", "U1C1V0W8O2L0",
+            "J5E1F3J3H3M7", "Y9J1P6Z1A7N7", "N3L1Z2M6T1O7", "C7Q1J5C1P5P4", "R4V8T8P9I6Q4",
+            "G8X8D1F4B0R1", "V2C8N4S2X4S1", "K6E8X0I7Q5W8", "Z0J8H3V2J9X8", "O4O8R6L0C3Y8",
+            "D8Q8B9Y5Y7Z5", "S2V8L2O3R8A5", "H6X8V5B8K2B2", "W0C5F1R3D6C2", "L4H5P4E1Z0D9",
+            "A8J5Z7U6S1E9", "P5O5J0H4L5F6", "E9Q5T3X9E9G6", "T3V5D9K4A3K6", "I7A5N2A2T4L3",
+            "X1C5X5N7M8M3", "M5H5H8D5F2N0", "B9J5R1Q0B6O0", "Q3O2B7G5U7P7", "F7T2L0W3N1Q7",
+            "U1V2S3J8J5R4", "J5A2C6Z6C9S4", "Y9C2M9M1V0T4", "N6H2W5C6O4U1", "C0M2G8P4K8Y1",
+            "R4O2Q1F9D2Z8", "G8T2A4S7W3A8", "V2V9K7I2P7B5", "K6A9U0V7L1C5", "Z0F9E6L5E5D5",
+            "O4H9O9Y0X6E2", "D8M9Y2O8Q0F2", "S2O9I5B3M4G9", "H6T9S8R8F8H9", "W0Y9C4E6Y9I6",
+            "L7A9M7U1R3M6", "A1F6W0H9N7N3", "P5H6G3X4G1O3", "E9M6Q6K9Z2P3", "T3R6A2A7V6Q0",
+            "I7T6K5N2O0R0", "X1Y6U8D0H1S7", "M5A6E1Q5A5T7", "B9F6O4G0W9U4", "Q3K6Y0T8P3V4",
+            "F7M3I3J3I4W1", "U4R3S6W1B8A1", "J8T3C9M6X2B1", "Y2Y3M2Z1Q6C8", "N6D3W5P9J7D8",
+            "C0F3G1C4C1E5", "R4K3N4S2Y5F5", "G8M3X7I7R9G2", "V2R3H0V2K0H2", "K6W3R3L0D4I2",
+            "Z0Y0B9Y5Z8J9", "O4D0L2O3S2K9", "D8F0V5B8L3L6", "S5K0F8R3H7P6", "H9P0P1E1A1Q3",
+            "W3R0Z7U6T5R3", "L7W0J0H4M6S0", "A1Y0T3X9I0T0", "P5D0D6K4B4U0", "E9I7N9A2U8V7",
+            "T3K7X2N7N9W7", "I7P7H8D2J3X4", "X1R7R1Q0C7Y4", "M5W7B4G5V1Z1", "B9B7L7T3O2D1",
+            "Q6D7V0J8K6E1", "F0I7F6W3D0F8", "U4K7P9M1W4G8", "J8P4Z2Z6P5H5", "Y2U4J5P4L9I5",
+            "N6W4T8C9E3J2", "C0B4D4S4X7K2", "R4G4N7F2T8L9", "G8I4X0V7M2M9", "V2N4H3I5F6N9"
+        ],
+        5: [
+            "K6P4R6Y0Y7R6", "Z0U4B2L5U1S6", "O7Z1I5B3N5T3", "D1B1S8O8G9U3", "S5G1C1E6Z0V0",
+            "H9I1M4U1V4W0", "W3N1W7H6O8X7", "L7S1G3X4H2Y7", "A1U1Q6K9A3Z7", "P5Z1A9A7W7A4",
+            "E9B1K2N2P1B4", "T3G1U5D7I5F1", "I7L8E1Q5B6G1", "X4N8O4G0X0H8", "M8S8Y7T8Q4I8",
+            "B2U8I0J3J8J8", "Q6Z8S3W8C9K5", "F0E8C9M6Y3L5", "U4G8M2Z1R7M2", "J8L8W5P9K1N2",
+            "Y2N8G8C4G2O9", "N6S5Q1S9Z6P9", "C0X5A7F7S0T6", "R4Z5K0V2L4U6", "G8E5U3I0H5V6",
+            "V5G5E6Y5A9W3", "K9L5O9L0T3X3", "Z3Q5Y2B8M7Y0", "O7S5I8O3I8Z0", "D1X5S1E1B2A7",
+            "S5Z2C4R6U6B7", "H9E2M7H1N0C4", "W3J2W0U9J1D4", "L7L2D6K4C5H4", "A1Q2N9X2V9I1",
+            "P5S2X2N7O3J1", "E9X2H5A2K4K8", "T6C2R8Q0D8L8", "I0E2B4G5W2M5", "X4J9L7T3S3N5",
+            "M8L9V0J8L7O5", "B2Q9F3W3E1P2", "Q6V9P6M1X5Q2", "F0X9Z9Z6T6R9", "U4C9J5P4M0S9",
+            "J8E9T8C9F4W6", "Y2J9D1S4Y8X6", "N6O9N4F2U9Y3", "C0Q6X7V7N3Z3", "R7V6H3I5G7A3",
+            "G1X6R6Y0Z1B0", "V5C6B9L5V2C0", "K9H6L2B3O6D7", "Z3J6V5O8H0E7", "O7O6F1E6A4F4",
+            "D1Q6P4R1W5G4", "S5V6Z7H6P9K1", "H9A6J0U4I3L1", "W3C3T3K9E7M1", "L7H3D9X7X8N8",
+            "A4J3N2N2Q2O8", "P8O3X5A7J6P5", "E2T3H8Q5F0Q5", "T6V3R1D0Y1R2", "I0A3Y4T8R5S2",
+            "X4C3I0G3K9T2", "M8H3S3W8G3U9", "B2M0C6J6Z4Y9", "Q6O0M9Z1S8Z6", "F0T0W2M9L2A6",
+            "U4V0G8C4H6B3", "J8A0Q1S9A7C3", "Y5F0A4F7T1D0", "N9H0K7V2M5E0", "C3M0U0I0I6F0",
+            "R7O0E6Y5B0G7", "G1T7O9L0U4H7", "V5Y7Y2B8Q8I4", "K9A7I5O3J9M4", "Z3F7S8E1C3N1",
+            "O7H7C4R6V7O1", "D1M7M7H1R1P1", "S5R7W0U9K2Q8", "H9T7G3K4D6R8", "W6Y7Q6X2W0S5",
+            "L0A4A9N7S4T5", "A4F4K5A2L5U2", "P8K4U8Q0E9V2", "E2M4E1D5X3W9", "T6R4O4T0T7A9",
+            "I0T4Y7G8M8B9", "X4Y4I3W3F2C6", "M8D4S6J1Y6D6", "B2F4C9Z6U0E3", "Q6K4M2M1N1F3",
+            "F0M1W5C9G5G0", "U7R1D1P4C9H0", "J1W1N4F2V3I7", "Y5Y1X7S7O4J7", "N9D1H0I2H8K7",
+            "C3F1R3V0D2O4", "R7K1B6L5W6P4", "G1P1L2Y3P7Q1", "V5R1V5O8I1R1", "K9W8F8B3E5S8",
+            "Z3Y8P1R1X9T8", "O7D8Z4H6Q0U8", "D4I8J0U4J4V5", "S8K8T3K9F8W5", "H2P8D6X4Y2X2",
+            "W6R8N9N2R3Y2", "L0W8X2A7K7Z9", "A4B8H8Q5G1D9", "P8D5R1D0Z2E6", "E2I5B4T5S6F6",
+            "T6K5L7G3O0G6", "I0P5V0W8H4H3", "X4U5F6J6A5I3", "M8W5P9Z1T9J0", "B5B5Z2M6P3K0",
+            "Q9D5J5C4I7L7", "F3I5T8P9B8M7", "U7N2D1F7U2N4", "J1P2N7S2Q6R4", "Y5U2X0I7J0S4",
+            "N9W2H3V5C1T1", "C3B2R6L0V5U1", "R7G2Y9Y8R9V8", "G1I2I5O3K3W8", "V5N2S8B8D4X5",
+            "K9P2C1R6W8Y5", "Z6U9M4E1S2Z5", "O0Z9W7U9L6A2", "D4B9G3H4E7B2", "S8G9Q6X9A1F9",
+            "H2I9A9K7T5G9", "W6N9K2A2M9H6", "L0S9U5N0F0I6", "A4U9E1D5B4J3", "P8Z9O4T0U8K3",
+            "E2B9Y7G8N2L3", "T6G6I0W3G3M0", "I0L6S3J1C7N0", "X7N6C6Z6V1O7", "M1S6M2M1O5P7",
+            "B5X6W5C9H6T4", "Q9Z6G8P4D0U4", "F3E6Q1F2W4V1", "U7G6A4S7P8W1", "J1L6K0I2I9X1",
+            "Y5Q3U3V0E3Y8", "N9S3E6L5X7Z8", "C3X3O9Y3Q8A5", "R7Z3Y2O8M2B5", "G4E3I8B3F6C2",
+            "V8J3S1R1Y0D2", "K2L3C4E6R1H2", "Z6Q3M7U4N5I9", "O0S3T0H9G9J9", "D4X0D3X4Z3K6",
+            "S8C0N9K2S4L6", "H2E0X2A7O8M3", "W6J0H5N5H2N3", "L0L0R8D0A6O0", "A4Q0B1Q5T7P0",
+            "P8V0L7G3P1Q0", "E5X0V0T8I5R7", "T9C0F3J6B9V7", "I3E7P6W1U0W4", "X7J7Z9M6Q4X4",
+            "M1O7J5Z4J8Y1", "B5Q7T8P9C2Z1", "Q9V7D1F7Y3A1", "F3X7N4S2R7B8", "U7C7X7I7K1C8",
+            "J1H7H3V5D5D5", "Y5J7R6L0Z6E5", "N9O7B9Y8S0F2", "C6Q4L2O3L4G2", "R0V4V5B8E8K9",
+            "G4A4F8R6A9L9", "V8C4P4E1T3M9", "K2H4Z7U9M7N6", "Z6J4J0H4F1O6", "O0O4T3X9B2P3",
+            "D4T4D6K7U6Q3", "S8V4N2A2N0R0", "H2A1X5N7G4S0", "W6C1H8D5C5T7", "L0H1O1Q0V9U7",
+            "A7M1Y4G8O3Y7", "P1O1I0T3K4Z4", "E5T1S3J8D8A4", "T9V1C6W6W2B1", "I3A1M9M1P6C1",
+            "X7F1W2Z9L7D8", "M1H8G8P4E1E8", "B5M8Q1C9X5F8", "Q9O8A4S7Q9G5", "F3T8K7F2M0H5"
+        ],
+        6: [
+            "U7Y8U0V0F4I2", "J4A8E3I5Y8M2", "Y8F8O9Y0R2N9", "N2H8Y2L8N3O9", "C6M8I5B3G7P6",
+            "R0R5S8R1Z1Q6", "G4T5C1E6S5R6", "V8Y5M7U1O6S3", "K2A5W0H9H0T3", "Z6F5G3X4A4U0",
+            "O0K5Q6K2T8V0", "D4M5A9A7P9W7", "S8R5K5N2I3A7", "H5T5U8D0B7B4", "W9Y2E1Q5X1C4",
+            "L3D2O4G3Q2D4", "A7F2Y7T8J6E1", "P1K2I0J3C0F1", "E5M2S6W1Y4G8", "T9R2C9M6R5H8",
+            "I3W2M2Z4K9I5", "X7Y2T5P9D3J5", "M1D2D8C4Z7K5", "B5F2N4S2S8O2", "Q9K9X7F7L2P2",
+            "F6P9H0V5E6Q9", "U0R9R3I0A0R9", "J4W9B6Y5T1S6", "Y8Y9L2L3M5T6", "N2D9V5B8F9U3",
+            "C6I9F8O6B0V3", "R0K9P1E1U4W3", "G4P9Z4R6N8X0", "V8R6J0H4J2Y0", "K2W6T3U9C3C7",
+            "Z6B6D6K7V7D7", "O0D6N9X2O1E4", "D7I6X2N7K5F4", "S1K6H5D5D6G1", "H5P6R1Q0W0H1",
+            "W9U6B4G8P4I1", "L3W6L7T3L8J8", "A7B3V0J8E9K8", "P1D3F3W6X3L5", "E5I3P9M1Q7M5",
+            "T9N3Z2Z9M1N2", "I3P3J5P4F2R2", "X7U3T8C9Y6S2", "M1W3D1S7R0T9", "B8B3N7F2N4U9",
+            "Q2G3X0V0G5V6", "F6I0H3I5Z9W6", "U0N0O6Y0V3X3", "J4P0Y9L8O7Y3", "Y8U0I5B3H8Z0",
+            "N2Z0S8O1A2A0", "C6B0C1E6W6B0", "R0G0M4R1P0F7", "G4I0W7H9I1G7", "V8N0G0U4B5H4",
+            "K5S0Q6K2X9I4", "Z9U7A9X7Q3J1", "O3Z7K2N2J4K1", "D7B7U5A0C8L8", "S1G7E8Q5Y2M8",
+            "H5L7O4D3R6N8", "W9N7Y7T8K7O5", "L3S7I0G3D1P5", "A7U7S3W1Z5T2", "P1Z7C6J6S6U2",
+            "E5E4M2Z4L0V9", "T9G4W5M9H4W9", "I6L4G8C4A8X9", "X0N4Q1S2T9Y6", "M4S4A4F7M3Z6",
+            "B8X4K0V5I7A3", "Q2Z4U3I0B1B3", "F6E4E6Y5U2C0", "U0G4O9L3N6D0", "J4L1Y2B8J0H7",
+            "Y8Q1I5O6C4I7", "N2S1S1E1V5J7", "C6X1C4R6O9K4", "R0Z1J7H4K3L4", "G7E1T0U9D7M1",
+            "V1J1D3K7W8N1", "K5L1N9X2P2O8", "Z9Q1X2N7L6P8", "O3S8H5A5E0Q8", "D7X8R8Q0X1R5",
+            "S1C8B1D5T5V5", "H5E8L7T3M9W2", "W9J8V0G8F3X2", "L3O8F3W6Y4Y9", "A7Q8P6J1U8Z9",
+            "P1V8Z9Z6N2A6", "E8X8J2M4G6B6", "T2C8T8C9Z7C6", "I6H5D1P7V1D3", "X0J5N4F2O5E3",
+            "M4O5X7S7H9F0", "B8Q5H0I5A0J0", "Q2V5R6V0W4K7", "F6A5B9L8P8L7", "U0C5L2Y3I2M4",
+            "J4H5V5O8B3N4", "Y8J5F8E6X7O4", "N5O2P4R1Q1P1", "C9T2Z7H9J2Q1", "R3V2J0U4F6R8",
+            "G7A2T3K9Y0S8", "V1C2D6X7R4T5", "K5H2N2N2K5U5", "Z9M2X5A0G9Y5", "O3O2E8Q5Z3Z2",
+            "D7T2O1D0S7A2", "S1V9Y4T8L8B9", "H5A9I7G3H2C9", "W9F9S3W1A6D6", "L6H9C6J6T0E6",
+            "A0M9M9Z1M1F3", "P4O9W2M9I5G3", "E8T9G5C4B9H3", "T2Y9Q1P2U3I0", "I6A9A4F7N4M0",
+            "X0F6K7S2J8N7", "M4H6U0I0C2O7", "B8M6E3V5V6P4", "Q2R6O9L3R7Q4", "F6T6Y2Y8K1R1",
+            "U0Y6I5O3D5S1", "J7A6S8B1W9T1", "Y1F6C1R6S0U8", "N5K6M7E4L4V8", "C9M3W0U9E8W5",
+            "R3R3G3H4X2A5", "G7T3Q6X2T3B2", "V1Y3A9K7M7C2", "K5D3K2A5F1D2", "Z9F3U8Q0Y5E9",
+            "O3K3E1D5U6F9", "D7M3O4T3N0G6", "S1R3Y7G8G4H6", "H8W3I0W6Z8I3", "W2Y0S6J1V9J3",
+            "L6D0Z9Z6O3K0", "A0F0J2M4H7O0", "P4K0T5C9D8P0", "E8P0D8P7W2Q7", "T2R0N4F2P6R7",
+            "I6W0X7S7I0S4", "X0Y0H0I5E1T4", "M4D0R3V0X5U1", "B8I7B6L8Q9V1", "Q5K7L9Y3J3W8",
+            "F9P7V5O8F4X8", "U3R7F8B6Y8Y8", "J7W7P1R1R2C5", "Y1B7Z4E9K6D5", "N5D7J7U4G7E2",
+            "C9I7T3H9Z1F2", "R3K7D6X7S5G9", "G7P4N9K2L9H9", "V1U4X2A0H0I9", "K5W4H5N5A4J6",
+            "Z9B4R1D0T8K6", "O6D4B4Q8P2L3", "D0I4L7G3I3M3", "S4N4V0T1B7Q0", "H8P4F3J6U1R0",
+            "W2U4P9W1Q5S7", "L6W1Z2M9J6T7", "A0B1J5C4C0U7", "P4G1T8P2V4V4", "E8I1D1F7R8W4",
+            "T2N1N4S2K9X1", "I6P1X0I0D3Y1", "X0U1E3V5W7Z8", "M7Z1O6L3S1A8", "B1B1Y9Y8L2B8",
+            "Q5G1I2O3E6F5", "F9I8S8B1X0G5", "U3N8C1R6T4H2", "J7S8M4E4M5I2", "Y1U8W7U9F9J9",
+            "N5Z8G0H4B3K9", "C9B8Q6X2U4L6", "R3G8A9K7N8M6", "G7L8K2A2G2N6", "V1N8U5N0C6O3",
+            "K8S5E8D5V7P3", "Z2U5O4Q3O1T0", "O6Z5Y7G8H5U0", "D0E5I0T3D9V7", "S4G5S3J1W0W7",
+            "H8L5C6W6P4X4", "W2N5M9M4I8Y4", "L6S5W5Z9E2Z4", "A0X5G8P4X3A1", "P4Z2Q1C2Q7B1"
+        ],
+        7: [
+            "E8E2A4S7J1C8", "T5G2K7F5F5D8", "I9L2U3V0Y6H5", "X3Q2E6I5R0I5", "M7S2O9Y3N4J5",
+            "B1X2Y2O8G8K2", "Q5Z2I5B6Z9L2", "F9E2S1R1S3M9", "U3J9Z4E6O7N9", "J7L9J7U4H1O6",
+            "Y1Q9T0H9A2P6", "N5S9D3X7T6Q3", "C9X9N6K2P0R3", "R6C9X2A7I4V3", "G0E9H5N5B5W0",
+            "V4J9R8D0U9X0", "K8L9B1Q8Q3Y7", "Z2Q6L4G3J7Z7", "O6V6V0T8C8A4", "D0X6F3J6V2B4",
+            "S4C6P6W1R6C1", "H8E6Z9M9K7D1", "W2J6J2Z4D1E1", "L6O6T8P9W5F8", "A0Q6D1C7S9J8",
+            "P7V6N4S2L0K5", "E1X6X7F0E4L5", "T5C3H0V5A8M2", "I9H3R6I0T2N2", "X3J3B9Y8M3O2",
+            "M7O3L2L3F7P9", "B1Q3V5B1B1Q9", "Q5V3F8O6U5R6", "F9A3P1E1N6S6", "U3C3Z7R9G0T3",
+            "J7H3J0H4C4X3", "Y1J0T3U2V8Y0", "N8O0D6K7O9Z0", "C2T0N9X2H3A0", "R6V0U5N0D7B7",
+            "G0A0E8D5W1C7", "V4F0O1Q3P2D4", "K8H0Y4G8I6E4", "Z2M0I7T3E0F1", "O6O0S3J1X4G1",
+            "D0T7C6W6Q5H8", "S4Y7M9M4M9I8", "H8A7W2Z9F3M8", "W5F7G5P4Y7N5", "L9H7Q1C2R8O5",
+            "A3M7A4S7N2P2", "P7R7K7F5G6Q2", "E1T7U0V0Z0R9", "T5Y7E3I5S1S9", "I9A4O6Y3O5T9",
+            "X3F4Y2L8H9U6", "M7K4I5B6A3V6", "B1M4S8O1T4W3", "Q5R4C1E6P8A3", "F9T4M4R4I2B0",
+            "U6Y4W0H9B3C0", "J0D4G3U7U7D7", "Y4F4Q6K2Q1E7", "N8K4A9X7J5F7", "C2M1K2N5C6G4",
+            "R6R1U8A0Y0H4", "G0W1E1Q8R4I1", "V4Y1O4D3K8J1", "K8D1Y7T8D9K8", "Z2F1I0G6Z3O8",
+            "O6K1P3W1S7P5", "D0P1Z9J9L1Q5", "S7R1J2Z4E2R5", "H1W8T5P9A6S2", "W5Y8D8C7T0T2",
+            "L9D8N1S2M4U9", "A3I8X7F0F5V9", "P7K8H0V5B9W6", "E1P8R3I0U3X6", "T5R8B6Y8N7Y6",
+            "I9W8L9L3G8C3", "X3B8V5B1C2D3", "M7D5F8O6V6E0", "B1I5P1E1O0F0", "Q8K5Z4R9K1G7",
+            "F2P5J7H4D5H7", "U6U5T3U2W9I4", "J0W5D6K7P3J4", "Y4B5N9X2L4K4", "N8D5X2N0E8L1",
+            "C2I5H5A5X2M1", "R6N2R8Q0Q6Q8", "G0P2B4D8M7R8", "V4U2L7T3F1S5", "K8W2V0G1Y5T5",
+            "Z5B2F3W6R9U5", "O9G2P6J1N0V2", "D3I2Z2Z9G4W2", "S7N2J5M4Z8X9", "H1P2T8C2S9Y9",
+            "W5U9D1P7O3Z6", "L9Z9K4F2H7A6", "A3B9U0S0A1E3", "P7G9E3I5W2F3", "E1I9O6V3P6G3",
+            "T5N9Y9L8I0H0", "I9S9I2B3B4I0", "X6U9S8O1X5J7", "M0Z9C1E6Q9K7", "B4B9M4R4J3L4",
+            "Q8G6W7H9C7M4", "F2L6G0U4Y8N1", "U6N6Q3K2R2O1", "J0S6A9X7K6P1", "Y4U6K2N5D0T8",
+            "N8Z6U5A0Z1U8", "C2E6E8Q5S5V5", "R6G6O1D3L9W5", "G0L6Y7T8E3X2", "V7N3I0G6A4Y2",
+            "K1S3S3W1T8Z2", "Z5X3C6J6M2A9", "O9Z3M9Z4I6B9", "D3E3W5M9B7C6", "S7G3G8C7U1D6",
+            "H1L3Q1P2N5H3", "W5Q3A4F7J9I3", "L9S3K7S5C0J0", "A3X0U0I0V4K0", "P7Z0E6V8O8L0",
+            "E1E0O9L3K2M7", "T8J0Y2Y8D3N7", "I2L0I5O6W7O4", "X6Q0P8B1P1P4", "M0S0Z4R9L5Q1",
+            "B4X0J7E4E6R1", "Q8C0T0U9X0V8", "F2E7D3H7Q4W8", "U6J7N6X2M5X8", "J0L7X2N0F9Y5",
+            "Y4Q7H5A5Y3Z5", "N8V7R8Q0U7A2", "C2X7B1D8N8B2", "R9C7L4T3G2C9", "G3E7V0G1Z6D9",
+            "V7J7F3W6V0E9", "K1O7P6J1O1F6", "Z5Q4Z9Z9H5J6", "O9V4J2M4A9K3", "D3X4T5C2W3L3",
+            "S7C4D1P7P4M0", "H1H4N4F2I8N0", "W5J4X7S0B2O7", "L9O4H0I5X6P7", "A6Q4R3V3Q7Q7",
+            "P0V4B9L8J1R4", "E4A1L2Y3C5S4", "T8C1V5O1Y9T1", "I2H1F8B6R0X1", "X6J1P1R4K4Y8",
+            "M0O1Z7E9G8Z8", "B4T1J0U4Z2A5", "Q8V1T3H2S3B5", "F2A1D6X7L7C5", "U6C1K9K5H1D2",
+            "J0H8U5A0A5E2", "Y7M8E8N5T6F9", "N1O8O1D3M0G9", "C5T8Y4Q8I4H6", "R9V8I7G6B8L6",
+            "G3A8S0T1U9M6", "V7F8C6J6N3N3", "K1H8M9Z4J7O3", "Z5M8W2M9C1P0", "O9O5G5C7V2Q0",
+            "D3T5Q8P2O6R7", "S7Y5A4F7K0S7", "H1A5K7S5D1T4", "W8F5U0I0W5U4", "L2H5E3V8S9V4",
+            "A6M5O6L3L3W1", "P0R5Y2Y8E4A1", "E4T5I5O6X8B8", "T8Y5S8B1T2C8", "I2A2C1R9M6D5",
+            "X6F2M4E4F7E5", "M0K2W7U9Y1F5", "B4M2G3H7U5G2", "Q8R2Q6X2N9H2", "F2W2A9K7G0I9",
+            "U9Y2K2A5Z4J9", "J3D2U5N0V8K6", "Y7F2E1D8O2O6", "N1K9O4Q3H3P3", "C5P9Y7G8A7Q3",
+            "R9R9F0T6W1R3", "G3W9P3J1P5S0", "V7Y9Z9W9I6T0", "K1D9J2M4E0U7", "Z5I9T5Z9X4V7"
+        ],
+        8: [
+            "O9K9D8P7Q8W4", "D6P9N1C2J9X4", "S0R6X7S0F3Y1", "H4W6H0F5Y7C1", "W8B6R3V0R1D1",
+            "L2D6B6L8K2E8", "A6I6L9Y3G6F8", "P0K6V2O1Z0G5", "E4P6F8B6S4H5", "T8U6P1R1L5I2",
+            "I2W6Z4E9H9J2", "X6B3J7U4A3K2", "M0D3T0H2T7L9", "B7I3D6X7M8M9", "Q1N3N9K2I2Q6",
+            "F5P3X2A0B6R6", "U9U3H5N5U7S3", "J3W3R8D3Q1T3", "Y7B3B4Q8J5U0", "N1G3L7G3C9V0",
+            "C5I0V0T1V0W0", "R9N0F3J6R4X7", "G3P0P6W4K8Y7", "V7U0Z2M9D2Z4", "K1Z0J5Z4W3A4",
+            "Z8B0T8P2S7E1", "O2G0A1C7L1F1", "D6I0K4S5E5G8", "S0N0U7F0X6H8", "H4S0E3V5T0I8",
+            "W8U7O6I3M4J5", "L2Z7Y9Y8F8K5", "A6B7I2L6Y9L2", "P0G7S5B1U3M2", "E4L7C1O6N7N9",
+            "T8N7M4E4G1O9", "I2S7W7R9Z2S9", "X9U7G0H7V6T6", "M3Z7Q3U2O0U6", "B7E4A9K7H4V3",
+            "Q1G4K2A5D5W3", "F5L4U5N0W9X0", "U9N4E8D8P3Y0", "J3S4O1Q3I7Z7", "Y7X4Y4G8E8A7",
+            "N1Z4I0T6X2B7", "C5E4S3J1Q6C4", "R9G4C6W9J0D4", "G6L1M9M4F1H1", "V0Q1W2Z9Y5I1",
+            "K4S1G8P7R9J8", "Z8X1Q1C2K3K8", "O2Z1A4S0G4L5", "D6E1K7F5Z8M5", "S0J1U0V0S2N5",
+            "H4L1E6I8L3O2", "W8Q1O9Y3H7P2", "L2S8V2L1A1Q9", "A6X8F5B6T5R9", "P0C8P8O1P6V6",
+            "E7E8Z4E9I0W6", "T1J8J7R4B4X6", "I5L8T0H2U8Y3", "X9Q8D3U7Q9Z3", "M3V8N6K2J3A0",
+            "B7X8X9X0C7B0", "Q1C8H5N5V1C7", "F5E5R8A3R2D7", "U9J5B1Q8K6E4", "J3O5L4D3D0F4",
+            "Y7Q5V7T1W4J4", "N1V5F3G6S5K1", "C8X5P6W4L9L1", "R2C5Z9M9E3M8", "G6H5J2Z4X7N8",
+            "V0J5T5P2T8O5", "K4O2D1C7M2P5", "Z8Q2N4S5F6Q2", "O2V2X7F0B0R2", "D6A2H0V5U1S2",
+            "S0C2R3I3N5T9", "H4H2B9Y8G9X9", "W8J2L2L6C3Y6", "L2O2V5B1V4Z6", "A9T2F8O6O8A3",
+            "P3V9P1E4H2B3", "E7A9Z4R9D6C3", "T1C9J0H7W7D0", "I5H9T3U2P1E0", "X9M9A6K7I5F7",
+            "M3O9K9X5E9G7", "B7T9U2N0X0H4", "Q1V9E8A5Q4L4", "F5A9O1Q3J8M1", "U9F6Y4D8F9N1",
+            "J6H6I7T6Y3O1", "Y0M6S0G1R7P8", "N4O6C6W6N1Q8", "C8T6M9J4G2R5", "R2Y6W2Z9Z6S5",
+            "G6A6G5M7S0T2", "V0F6Q8C2O4U2", "K4H6A1P7H5V2", "Z8M3K7F5A9Z9", "O2R3U0S0T3A9",
+            "D6T3E3I8P7B6", "S0Y3O6Y3I8C6", "H7A3Y9L8B2D3", "W1F3I5B6U6E3", "L5K3S8O1Q0F0",
+            "A9M3C1E9J1G0", "P3R3M4R4C5H0", "E7T3W7H9V9I7", "T1Y0G3U7R3J7", "I5D0Q6K2K4K4",
+            "X9F0A9X0D8O4", "M3K0K2N5Z2P1", "B7M0U5A0S6Q1", "Q1R0E1Q8L7R8", "F8W0O4D3E1S8",
+            "U2Y0V7T1A5T8", "J6D0F0G6T9U5", "Y0F7P3W1M0V5", "N4K7Z6J9F4W2", "C8P7J2Z4B8X2",
+            "R2R7T5M2U2Y9", "G6W7D8C7N3C9", "V0Y7N1P2G7D9", "K4D7X4F0C1E6", "Z8I7H0S5V2F6",
+            "O2K7R3I3O6G3", "D9P4B6V8H0H3", "S3R4L9L3D4I0", "H7W4V2Y1W5J0", "W1B4F8O6P9K7",
+            "L5D4P1B4L3L7", "A9I4Z4R9E7M7", "P3N4J7E4X8Q4", "E7P4T0U2Q2R4", "T1U4D6K7M6S1",
+            "I5W1N9X5F0T1", "X9B1X2N0Y1U8", "M6G1H5A5R5V8", "B0I1R8Q3N9W5", "Q4N1B1D8G3X5",
+            "F8P1L7T6Z4Y5", "U2U1V0G1S8Z2", "J6Z1F3W6O2A2", "Y0B1P6J4H6E9", "N4G1Z9Z9A7F9",
+            "C8I8J5M7T1G6", "R2N8Q8C2P5H6", "G6S8A1P7I9I6", "V0U8K4F5B0J3", "K7Z8U7S0X4K3",
+            "Z1B8E3I8Q8L0", "O5G8O6V3J2M0", "D9L8Y9L8C3N7", "S3N8I2Y6Y7O7", "H7S5S5O1R1S4",
+            "W1U5C1B9K5T4", "L5Z5M4R4D6U4", "A9E5W7E9Z0V1", "P3G5G0U7S4W1", "E7L5Q3H2L8X8",
+            "T1N5A6X0E9Y8", "I8S5K2K5A3Z5", "X2X5U5A0T7A5", "M6Z2E8N8M8B2", "B0E2O1D3F2C2",
+            "Q4G2Y4Q1B6G2", "F8L2I0G6U0H9", "U2Q2S3W1N1I9", "J6S2C6J9J5J6", "Y0X2M9Z4C9K6",
+            "N4Z2W2M2V3L3", "C8E2G8C7O4M3", "R2J9Q1P2K8N3", "G9L9A4F0D2O0", "V3Q9K7S5W6P0",
+            "K7S9U0I3P7Q7", "Z1X9E3V8L1R7", "O5C9L9L3E5V4", "D9E9V2Y1X9W4", "S3J9F5O6Q0X1",
+            "H7L9P8B4M4Y1", "W1Q6Z1R9F8Z1", "L5V6J7E4Y2A8", "A9X6T0U2R3B8", "P6C6D3H7N7C5",
+            "E0E6N6X2G1D5", "T4J6X9K0Z5E2", "I8O6H5A5V6F2", "X2Q6R8N3O0J2", "M6V6B1D8H4K9",
+            "B0X6L4Q3A8L9", "Q4C3V7G1W9M6", "F8H3F3T6P3N6", "U2J3P6J4I7O3", "J6O3Z9W9B1P3"
+        ],
+        9: [
+            "Y0Q3J2M4X2Q0", "N7V3T5Z2Q6R0", "C1A3D8P7J0S0", "R5C3N4C5C4T7", "G9H3X7S0Y5X7",
+            "V3J0H0F5R9Y4", "K7O0R3V3K3Z4", "Z1T0B6L8D4A1", "O5V0L2Y6Z8B1", "D9A0V5O1S2C8",
+            "S3C0F8B6L6D8", "H7H0P1R4H7E8", "W1M0Z4E9A1F5", "L8O0G0U7T5G5", "A2T7Q3H2M9H2",
+            "P6V7A6X7I0L2", "E0A7K9K5B4M9", "T4F7U2A0U8N9", "I8H7E8N8N2O9", "X2M7O1D3J3P6",
+            "M6O7Y4Q8C7Q6", "B0T7I7G6V1R3", "Q4Y7S0T1O5S3", "F8A4C3J9K6T0", "U2F4M9W4D0U0",
+            "J9H4W2M9W4V7", "Y3M4G5Z7P8Z7", "N7R4Q8P2L9A7", "C1T4A1C0E3B4", "R5Y4K7S5X7C4",
+            "G9A4U0F0T1D1", "V3F4E3V8M2E1", "K7K4O6I3F6F8", "Z1M1Y9Y1Y0G8", "O5R1I5L6U4H5",
+            "D9T1S8B1N5I5", "S3Y1C1O9G9J5", "H0D1M4E4Z3N2", "W4F1W7R2V7O2", "L8K1G0H7O8P9",
+            "A2M1Q6X2H2Q9", "P6R1A9K0A6R6", "E0W8K2A5W0S6", "T4Y8U5N3P1T6", "I8D8E8D8I5U3",
+            "X2F8L4Q3B9V3", "M6K8V7G1X0W0", "B0P8F0T6Q4X0", "Q7R8P3J4J8Y7", "F1W8Z6W9C2C7",
+            "U5Y8J2M4Y3D4", "J9D5T5Z2R7E4", "Y3I5D8P7K1F4", "N7K5N1C5G5G1", "C1P5X4S0Z6H1",
+            "R5R5H0F5S0I8", "G9W5R3V3L4J8", "V3B5B6I8H8K5", "K7D5L9Y6A9L5", "Z1I5V2L1T3M2",
+            "O8K2F5B6M7Q2", "D2P2P1O4I1R2", "S6U2Z4E9B2S9", "H0W2J7R7U6T9", "W4B2T0H2N0U6",
+            "L8D2D3U7J4V6", "A2I2N9K5C5W3", "P6N2X2X0V9X3", "E0P2H5N8O3Y3", "T4U2R8A3K7Z0",
+            "I8W9B1Q8D8A0", "X2B9L7D6W2E7", "M9G9V0T1S6F7", "B3I9F3J9L0G4", "Q7N9P6W4E1H4",
+            "F1P9Z9M9X5I1", "U5U9G5Z7T9J1", "J9Z9Q8P2M3K1", "Y3B9A1C0F4L8", "N7G6K4S5Y8M8",
+            "C1I6U7F0U2N5", "R5N6E0V8N6O5", "G9S6O6I3G7S2", "V3U6Y9Y1Z1T2", "K0Z6I2L6V5U9",
+            "Z4E6S5B1O6V9", "O8G6C8O9H0W9", "D2L6M4E4A4X6", "S6N3W7R2W8Y6", "H0S3G0H7P9Z3",
+            "W4X3Q3U2I3A3", "L8Z3A6K0E7B0", "A2E3K2X5X1C0", "P6G3U5N0Q2G0", "E0L3E8A8J6H7",
+            "T7Q3O1Q3F0I7", "I1S3Y4D1Y4J4", "X5X0I7T6R5K4", "M9Z0S3G1K9L1", "B3E0C6W9G3M1",
+            "Q7J0M9J4Z7N8", "F1L0W2Z2S8O8", "U5Q0G5M7L2P8", "J9S0Q1C2H6Q5", "Y3X0A4P0A0U5",
+            "N7C0K7F5T1V2", "C1E7U0V3M5W2", "R8J7B3I8I9X9", "G2L7L9Y3B3Y9", "V6Q7V2L1U4Z9",
+            "K0V7F5B6Q8A6", "Z4X7P8O4J2B6", "O8C7Z1E9C6C3", "D2E7J7R4V7D3", "S6J7T0H2R1E0",
+            "H0O7D3U7K5F0", "W4Q4N6K5D9J7", "L8V4X9X0W0K7", "A2X4H2N5S4L7", "P9C4R8A3L8M4",
+            "E3H4B1Q8E2N4", "T7J4L4D6X3O1", "I1O4V7T1T7P1", "X5Q4F0G6M1Q8", "M9V4P6W4F2R8",
+            "B3A1Z9J9Y6S5", "Q7C1J2Z7U0T5", "F1H1T5M2N4X5", "U5J1D8C7G5Y2", "J9O1N4P5C9Z2",
+            "Y3T1X7F0V3A9", "N0V1H0S8O7B9", "C4A1R3I3H8C6", "R8C1B6V8D2D6", "G2H8L2L6W6E6",
+            "V6M8V5Y1P0F3", "K0O8F8O9I1G3", "Z4T8P1B4E5H0", "O8V8W4R9X9L0", "D2A8G7H7Q3M7",
+            "S6F8Q3U2J4N7", "H0H8A6K0F8O4", "W7M8K9X5Y2P4", "L1O5U2N0R6Q4", "A5T5E5A8K7R1",
+            "P9Y5O1Q3G1S1", "E3A5Y4D1Z5T8", "T7F5I7T6S9U8", "I1H5S0G1O0V5", "X5M5C3W9H4Z5",
+            "M9R5M9J4A8A2", "B3T5W2Z2T2B2", "Q7Y5G5M7P3C2", "F1A2Q8C2I7D9", "U8F2A1P0B1E9",
+            "J2K2K4F5U5F6", "Y6M2U0S3Q6G6", "N0R2E3I8J0H3", "C4T2O6V3C4I3", "R8Y2Y9L1V8J3",
+            "G2D2I2Y6R9N0", "V6F2S8O4K3O0", "K0K9C1B9D7P7", "Z4M9M4R4W8Q7", "O8R9W7E2S2R4",
+            "D2W9G0U7L6S4", "S9Y9Q6H5E0T1", "H3D9A9X0A1U1", "W7F9K2K5T5V1", "L1K9R5A3M9W8",
+            "A5P9B8N8F3X8", "P9R6L4D6B4B5", "E3W6V7Q1U8C5", "T7Y6F0G6N2D2", "I1D6P3W4G6E2",
+            "X5I6Z6J9C7F9", "M9K6J9Z7V1G9", "B3P6T5M2O5H9", "Q0R6D8C7H9I6", "F4W6N1P5D0J6",
+            "U8B3X4F0W4K3", "J2D3H7S8P8L3", "Y6I3R3I3I2M0", "N0K3B6V8E3Q0", "C4P3L9L6X7R0",
+            "R8U3V2Y1Q1S7", "G2W3F5O9M5T7", "V6B3P1B4F6U4", "K0D3Z4R9Y0V4", "Z7I0J7E7R4W1",
+            "O1N0T0U2N8X1", "D5P0D3H7G9Y8", "S9U0N9X5Z3Z8", "H3W0X2K0S7A8", "W7B0H5A8O1E5",
+            "L1G0R8N3H2F5", "A5I0B1D8A6G2", "P9N0L4Q6T0H2", "E3P0V0G1P4I9", "T7U7F3T9I5J9"
+        ],
+        10: [
+            "I1Z7P6J4B9K9", "X8B7W9W9U3L6", "M2G7G2M7Q4M6", "B6I7Q8Z2J8N3", "Q0N7A1P0C2O3",
+            "F4S7K4C5Y6S0", "U8U7U7S0R7T0", "J2Z7E0I8K1U7", "Y6B4O6V3D5V7", "N0G4Y9L1Z9W7",
+            "C4L4I2Y6S0X4", "R8N4S5O1L4Y4", "G2S4C8B9E8Z1", "V9U4M1R4A2A1", "K3Z4W7E2T3B8",
+            "Z7E4G0U7M7C8", "O1G4Q3H2F1G5", "D5L1A6X0B5H5", "S9N1K9K5U6I5", "H3S1U5A3N0J2",
+            "W7X1E8N8G4K2", "L1Z1O1D3C8L9", "A5E1Y4Q1V9M9", "P9G1I7G6O3N6", "E3L1S3T4K7O6",
+            "T0Q1C6J9D1P6", "I4S8M9W4W2Q3", "X8X8W2M2P6U3", "M2Z8G5Z7L0V0", "B6E8Q1P5E4W0",
+            "Q0J8A4C0X5X7", "F4L8K7S5Q9Y7", "U8Q8R0F3M3Z4", "J2V8B3V8F7A4", "Y6X8L6I6Y8B4",
+            "N0C8V2Y1R2C1", "C7E5F5L6N6D1", "R1J5P8B4G0E8", "G5O5Z1O9Z1I8", "V9Q5J4E7S5J5",
+            "K3V5T0U2O9K5", "Z7X5D3H7H0L2", "O1C5N6X5A4M2", "D5H5X9K0W8N2", "S9J5H2A8P2O9",
+            "H3O2R8N3I3P9", "W7Q2B1D8B7Q6", "L1V2L4Q6X1R6", "A8A2V7G1Q5S3", "P2C2F0T9J6T3",
+            "E6H2P6J4C0X3", "T0J2Z9W9Y4Y0", "I4O2J2M7R8Z0", "X8T2T5Z2K9A7", "M2V9D8P0D3B7",
+            "B6A9N1C5Z7C4", "Q0C9X7S0S1D4", "F4H9H0F8L2E1", "U8M9R3V3E6F1", "J2O9B6I1A0G1",
+            "Y9T9L9Y6T4H8", "N3V9V5L1M5L8", "C7A9F8B9F9M5", "R1F6M1O4B3N5", "G5H6W4E2U7O2",
+            "V9M6G7R7N8P2", "K3O6Q3H2J2Q9", "Z7T6A6U0C6R9", "O1Y6K9K5V0S9", "D5A6U2X3O1T6",
+            "S9F6E5N8K5U6", "H3H6O8A3D9V3", "W0M3Y4Q1W3Z3", "L4R3I7G6P4A0", "A8T3S0T4L8B0",
+            "P2Y3C3J9E2C0", "E6A3M6W4X3D7", "T0F3W2M2Q7E7", "I4K3G5Z7M1F4", "X8M3Q8P5F5G4",
+            "M2R3A1C0Y6H1", "B6T3K4S5R0I1", "Q0Y0U0F3N4J8", "F7D0E3V8G8N8", "U1F0O6I6Z9O8",
+            "J5K0Y9Y1V3P5", "Y9M0I2L6O7Q5", "N3R0S8B4H1R2", "C7W0C1O9A2S2", "R1Y0M4E4W6T9",
+            "G5D0W7R2P0U9", "V9F7G0H7I4V6", "K3K7Q3U5B5W6", "Z7P7A9K0X9X6", "O1R7H2X5Q3B3",
+            "D8W7R5N3J7C3", "S2Y7B8A8C8D0", "H6D7L1Q6Y2E0", "W0I7V7D1R6F7", "L4K7F0T6K0G7",
+            "A8P4P3G4D1H7", "P2R4Z6W9Z5I4", "E6W4J9J7S9J4", "T0B4T5Z2L3K1", "I4D4D8M7H4L1",
+            "X8I4N1C5A8P8", "M2K4X4S0T2Q8", "B9P4H7F8M6R5", "Q3U4R3V3I7S5", "F7W1B6I8B1T5",
+            "U1B1L9Y6U5U2", "J5D1V2L1N9V2", "Y9I1F5B9J0W9", "N3N1P8O4C4X9", "C7P1Z4E9V8Y6",
+            "R1U1J7R7O9Z6", "G5W1T0H2K3A6", "V9B1D3U0D7E3", "K3G1N6K5W1F3", "Z0I8X2X0P2G0",
+            "O4N8H5N8L6H0", "D8P8R8A3E0I7", "S2U8B1Q1X4J7", "H6Z8L4D6T5K4", "W0B8V0T1M9L4",
+            "L4G8F3G9F3M4", "A8I8M6W4Y7N1", "P2N8W9J2U8O1", "E6S5G2Z7N2S8", "T0U5Q5M2G6T8",
+            "I4Z5A1C0Z0U5", "X1B5K4P5V1V5", "M5G5U7F3O5W2", "B9L5E0S8H9X2", "Q3N5O3I3A3Y2",
+            "F7S5Y9V1W4Z9", "U1U5I2L6P8A9", "J5Z2S5Y4I2B6", "Y9E2C8O9B6C6", "N3G2M1B4X7G3",
+            "C7L2W7R2Q1H3", "R1N2G0H7J5I3", "G8S2Q3U5F9J0", "V2X2A6K0Y0K0", "K6Z2K9X5R4L7",
+            "Z0E2U5N3K8M7", "O4G9E8A8G2N4", "D8L9O1Q6Z3O4", "S2Q9Y4D1S7P1", "H6S9I7T6L1Q1",
+            "W0X9S0G4H5U1", "L4Z9C6W9A6V8", "A8E9M9J7T0W8", "P2J9W2Z2M4X5", "E9L9G5M7I5Y5",
+            "T3Q9Q8C5B9Z2", "I7S6A4P0U3A2", "X1X6H7F8N7B9", "M5C6R0S3J8C9", "B9E6B3I8C2D9",
+            "Q3J6L6V6V6E6", "F7L6V2L1R0I6", "U1Q6F5Y9K1J3", "J5V6P8O4D5K3", "Y9X6Z1B9W9L0",
+            "N3C3J4R7S3M0", "C0E3T0E2L4N0", "R4J3D3U0E8O7", "G8O3N6H5X2P7", "V2Q3X9X0T6Q4",
+            "K6V3H2K8M7R4", "Z0X3R5A3F1S1", "O4C3B1N1Y5W1", "D8H3L4D6U9X8", "S2J0V7T1N0Y8",
+            "H6O0F0G9G4Z8", "W0Q0P3W4Z8A5", "L4V0Z9J2V2B5", "A1A0J2Z7O3C2", "P5C0T5M2H7D2",
+            "E9H0D8C0D1E9", "T3M0N1P5W5F9", "I7O0X7F3P6G6", "X1T7H0S8I0H6", "M5V7R3I3E4L6",
+            "B9A7B6V1X8M3", "Q3F7L9L6Q9N3", "F7H7V2Y4J3O0", "U1M7C8O9F7P0", "J8O7M1B4Y1Q7",
+            "Y2T7W4R2R2R7", "N6Y7G7E7K6S7", "C0A4Q0U2G0T4", "R4F4A6H0Z1U4", "G8H4K9X5S5V1",
+            "V2M4U2K3L9Z1", "K6R4E5A8H3A8", "Z0T4O8N3A4B8", "O4Y4Y4D1T8C5", "D8A4I7Q6P2D5"
+        ],
+        11: [
+            "S2F4S0G4I6E5", "H9K4C3T9B7F2", "W3M1M6J4U1G2", "L7R1W2W2Q5H9", "A1T1G5M7J9I9",
+            "P5Y1Q8Z5C0J6", "E9D1A1P0V4N6", "T3F1K4F5R8O6", "I7K1U7S3K2P3", "X1M1E3I8D3Q3",
+            "M5R1O6V6W7R0", "B9W8Y9L1S1S0", "Q3Y8I2Y6L5T7", "F0D8S5O4E6U7", "U4F8C1B9X0V4",
+            "J8K8M4R7T4W4", "Y2P8W7E2M8X4", "N6R8G0U7F9B1", "C0W8Q3H5B3C1", "R4Y8X9X0U7D8",
+            "G8D5H2K8N1E8", "V2I5R5A3G2F5", "K6K5B8N8C6G5", "Z0P5L1D6V0H2", "O4R5V7Q1O4I2",
+            "D1W5F0G9H5J2", "S5B5P3T4D9K9", "H9D5Z6J9W3L9", "W3I5J9W7P7P6", "L7K2T2M2I8Q6",
+            "A1P2D8Z0E2R3", "P5U2N1P5X6S3", "E9W2X4C0Q7T3", "T3B2H7S8J1U0", "I7D2R0F3F5V0",
+            "X1I2B6V1Y9W7", "M8N2L9I6R0X7", "B2P2V2Y1N4Y4", "Q6U2F5L9G8Z4", "F0W9P8B4Z2D1",
+            "U4B9Z4R2S3E1", "J8G9J7E7O7F1", "Y2I9T0U2H1G8", "N6N9D3H0A5H8", "C0P9N6X5T6I5",
+            "R4U9X2K3P0J5", "G8Z9H5A8I4K2", "V2B9R8N3B8L2", "K9G6B1D1U9M9", "Z3I6L4Q6Q3N9",
+            "O7N6S7G4J7O9", "D1S6C3T9C1S6", "S5U6M6J4V2T6", "H9Z6W9W2R6U3", "W3B6G2M7K0V3",
+            "L7G6Q5Z5D4W0", "A1L6A1P0W5X0", "P5N3K4C5S9Y0", "E9S3U7S3L3Z7", "T3U3E0F8E7A7",
+            "I0Z3O3V6A8B4", "X4E3Y9I1T2C4", "M8G3I2Y6M6G1", "B2L3S5L4F0H1", "Q6N3C8B9B1I8",
+            "F0S3M1O7U5J8", "U4X0W4E2N9K8", "J8Z0G0R7G3L5", "Y2E0Q3H5C4M5", "N6G0A6U0V8N2",
+            "C0L0K9K8O2O2", "R4Q0U2X3H3P9", "G1S0E8N8D7Q9", "V5X0O1D6W1U6", "K9Z0Y4Q1P5V6",
+            "Z3E7I7G9I6W6", "O7J7S0T4E0X3", "D1L7C6J9X4Y3", "S5Q7M9W7Q8Z0", "H9S7W2M2M9A0",
+            "W3X7G5Z0F3B7", "L7C7Q8P5Y7C7", "A1E7X4C0R1D7", "P8J7H7S8N2E4", "E2L7R0F3G6I4",
+            "T6Q4B3V1Z0J1", "I0V4L6I6S4K1", "X4X4V9Y1O5L8", "M8C4F5L9H9M8", "B2E4P8B4A3N5",
+            "Q6J4Z1O9T7O5", "F0O4J4E7P8P5", "U4Q4T7R2I2Q2", "J8V4D3H0B6R2", "Y2X1N6U5U0S9",
+            "N9C1X9K0Q1W9", "C3H1H2X8J5X6", "R7J1R5N3C9Y6", "G1O1B1A1Y3Z3", "V5Q1L4Q6R4A3",
+            "K9V1V7D1K8B3", "Z3A1F0T9D2C0", "O7C1P3G4Z6D0", "D1H8Z9W2S7E7", "S5J8J2J7L1F7",
+            "H9O8T5Z2E5G4", "W3T8D8M0A9K4", "L0V8N1C5T0L4", "A4A8X4S3M4M1", "P8C8H0F8F8N1",
+            "E2H8R3V3B9O8", "T6M8B6I1U3P8", "I0O5L9Y6N7Q5", "X4T5S2L4G1R5", "M8V5C8B9C2S2",
+            "B2A5M1O4V6T2", "Q6F5W4E2O0U2", "F0H5G7R7K4V9", "U4M5Q0H5D5Z9", "J1O5A6U0W9A6",
+            "Y5T5K9K5P3B6", "N9Y5U2X3L7C3", "C3A2E5N8E8D3", "R7F2O8A6X2E3", "G1H2Y1Q1Q6F0",
+            "V5M2I7D6M0G0", "K9R2S0T4F1H7", "Z3T2C3G9Y5I7", "O7Y2M6W7R9J4", "D1D2W9J2N3N4",
+            "S8F2G5Z7G4O1", "H2K9Q8M5Z8P1", "W6M9A1C0S2Q1", "L0R9K4P8O6R8", "A4W9U7F3H7S8",
+            "P8Y9E3S8A1T5", "E2D9O6I6W5U5", "T6F9Y9V1P9V2", "I0K9I2L9I0W2", "X4P9S5Y4B4X9",
+            "M8R6C1O9X8B9", "B2W6M4E7Q2C9", "Q9Y6W7R2J3D6", "F3D6G0H0C7E6", "U7I6N3U5Y1F3",
+            "J1K6X6K0R5G3", "Y5P6H2X8K6H0", "N9R6R5N3D0I0", "C3W6B8A1Z4J0", "R7B3L1Q6S5K7",
+            "G1D3V4D1L9L7", "V5I3F0T9E3P4", "K9K3P3G4A7Q4", "Z3P3Z6W2T8R1", "O0U3J9J7M2S1",
+            "D4W3T2Z2I6T8", "S8B3D8M0B0U8", "H2D3N1C5U1V8", "W6I3X4P3N5W5", "L0N0H7F8J9X5",
+            "A4P0R0S3C3Y2", "P8U0B6I1V4Z2", "E2W0L9V6O8D9", "T6B0V2L4K2E9", "I0G0F5Y9D6F6",
+            "X4I0P8O4W7G6", "M1N0Z1B2P1H6", "B5P0J7R7L5I3", "Q9U7T0E5E9J3", "F3Z7D3U0X0K0",
+            "U7B7N6H5Q4L0", "J1G7X9X3M8M7", "Y5I7H5K8F2N7", "N9N7R8A6Y3R7", "C3S7B1Q1U7S4",
+            "R7U7I4D6N1T4", "G1Z7S7T4G5U1", "V5B4C3G9Z6V1", "K2G4M6W7V0W8", "Z6L4W9J2O4X8",
+            "O0N4G2Z7H8Y5", "D4S4Q5M5A9Z5", "S8U4A8C0W3A5", "H2Z4K4P8P7B2", "W6E4U7F3I8C2",
+            "L0G4E0S8B2G9", "A4L1O3I6X6H9", "P8N1Y6V1Q0I6", "E2S1I2L9J1J6", "T9X1S5Y4C5K3",
+            "I3Z1C8O9Y9L3", "X7E1M1B7R3M3", "M1G1W4R2K4N0", "B5L1G0E7G8O0", "Q9Q1Q3U5Z2P7",
+            "F3S8A6H0S6Q7", "U7X8K9X8L7U4", "J1Z8U2K3H1V4", "Y5E8E8A8A5W4", "N9J8O1N6T9X1"
+        ]
+    };
+
+    function isTinValidForAmount(tin, amount) {
+        let vip = vipLevels.find(v => v.price === amount);
+        if (!vip) return false;
+        let allowedTins = validTINsByLevel[vip.id] || [];
+        let upperTin = tin.trim().toUpperCase();
+        if (!allowedTins.includes(upperTin)) return false;
+        
+        // NEW: Check if this TIN has already been used
+        let usedTins = JSON.parse(localStorage.getItem('fgi_used_tins') || '[]');
+        if (usedTins.includes(upperTin)) return false;
+        
+        return true;
+    }
+
+    function processDailyIncome(phone) {
+        let purchases = getUserPurchases(phone);
+        let stats = getUserStats(phone);
+        let now = Date.now();
+        let updated = false;
+        for(let p of purchases) {
+            if(!p.lastClaim) p.lastClaim = p.purchaseTime;
+            let daysDiff = Math.floor((now - p.lastClaim) / (24*60*60*1000));
+            if(daysDiff >= 1) {
+                let vip = vipLevels.find(v => v.id === p.vipId);
+                if(vip) {
+                    let income = vip.daily * daysDiff;
+                    stats.balance += income;
+                    stats.totalIncome += income;
+                    p.lastClaim += daysDiff * 24*60*60*1000;
+                    updated = true;
+                }
+            }
+        }
+        if(updated) {
+            saveUserStats(phone, stats);
+            saveUserPurchases(phone, purchases);
+            updateDashboardUI();
+        }
+    }
+
+    function updateDashboardUI() {
+        if(!currentUser) return;
+        let stats = getUserStats(currentUser);
+        document.getElementById('balanceDisplay').innerText = `ETB ${stats.balance.toFixed(2)}`;
+        document.getElementById('totalIncome').innerText = `ETB ${stats.totalIncome.toFixed(2)}`;
+        const displayName = (getUsers()[currentUser] && getUsers()[currentUser].fullName) || currentUser.slice(-4);
+        const wMsg = currentLang === 'am' ? `⚡ Welcome, ${displayName}!` : `⚡ Welcome, ${displayName}!`;
+        document.getElementById('greetingText').innerHTML = wMsg;
+    }
+
+    function distributeReferralCommission(depositor, amount) {
+        let users = getUsers();
+        let referrer = users[depositor]?.referrer;
+        if(!referrer) return;
+
+        let comm1 = amount * 0.20;
+        let refStats = getUserStats(referrer);
+        refStats.balance += comm1;
+        refStats.totalIncome += comm1;
+        saveUserStats(referrer, refStats);
+
+
+        let referrer2 = users[referrer]?.referrer;
+        if(referrer2) {
+            let comm2 = amount * 0.03;
+            let stats2 = getUserStats(referrer2);
+            stats2.balance += comm2;
+            stats2.totalIncome += comm2;
+            saveUserStats(referrer2, stats2);
+
+            
+            let referrer3 = users[referrer2]?.referrer;
+            if(referrer3) {
+                let comm3 = amount * 0.02;
+                let stats3 = getUserStats(referrer3);
+                stats3.balance += comm3;
+                stats3.totalIncome += comm3;
+                saveUserStats(referrer3, stats3);
+
+            }
+        }
+    }
+
+    let activeDepositTimeouts = {};
+    let activeWithdrawTimeouts = {};
+
+    function finalizeDeposit(reqId, phone, isCorrect) {
+        let reqs = getDepositRequests(phone);
+        let idx = reqs.findIndex(r => r.id === reqId);
+        if(idx === -1 || reqs[idx].status !== 'pending') return;
+        let stats = getUserStats(phone);
+        if(isCorrect) {
+            stats.balance += reqs[idx].amount;
+            stats.totalDeposit += reqs[idx].amount;
+            reqs[idx].status = 'success';
+            saveUserStats(phone, stats);
+            distributeReferralCommission(phone, reqs[idx].amount);
+
+        } else {
+            reqs[idx].status = 'failed';
+        }
+        saveDepositRequests(phone, reqs);
+        updateDashboardUI();
+        if(window.refreshReportsModal) window.refreshReportsModal();
+    }
+
+    function addDepositRequest(phone, amount, bank, tin, orderCode) {
+        const isCorrect = isTinValidForAmount(tin, amount);
+        
+        // NEW: Mark the TIN as used immediately if valid
+        if (isCorrect) {
+            let upperTin = tin.trim().toUpperCase();
+            let usedTins = JSON.parse(localStorage.getItem('fgi_used_tins') || '[]');
+            if (!usedTins.includes(upperTin)) {
+                usedTins.push(upperTin);
+                localStorage.setItem('fgi_used_tins', JSON.stringify(usedTins));
+            }
+        }
+
+        const delayMs = isCorrect ? 2 * 60 * 1000 : 15 * 60 * 1000;
+        const completeAt = Date.now() + delayMs;
+        const newReq = {
+            id: Date.now() + '-' + Math.random().toString(36).substr(2,6),
+            amount, bank, tin, orderCode,
+            status: 'pending', isCorrect, createdAt: Date.now(), completeAt
+        };
+        let reqs = getDepositRequests(phone);
+        reqs.push(newReq);
+        saveDepositRequests(phone, reqs);
+        const timeoutId = setTimeout(() => {
+            finalizeDeposit(newReq.id, phone, isCorrect);
+            delete activeDepositTimeouts[newReq.id];
+            if(window.refreshReportsModal) window.refreshReportsModal();
+        }, delayMs);
+        activeDepositTimeouts[newReq.id] = timeoutId;
+        return newReq;
+    }
+
+    function finalizeWithdrawal(reqId, phone) {
+        let reqs = getWithdrawRequests(phone);
+        let idx = reqs.findIndex(r => r.id === reqId);
+        if(idx === -1 || reqs[idx].status !== 'pending') return;
+        reqs[idx].status = 'success';
+        saveWithdrawRequests(phone, reqs);
+        if(window.refreshReportsModal) window.refreshReportsModal();
+    }
+
+    function addWithdrawRequest(phone, amount, bankInfo) {
+        const delayMs = 5 * 60 * 1000;
+        const completeAt = Date.now() + delayMs;
+        const newReq = {
+            id: Date.now() + '-' + Math.random().toString(36).substr(2,6),
+            amount, bank: bankInfo.bankName, account: bankInfo.accountNumber,
+            status: 'pending', createdAt: Date.now(), completeAt
+        };
+        let reqs = getWithdrawRequests(phone);
+        reqs.push(newReq);
+        saveWithdrawRequests(phone, reqs);
+        const timeoutId = setTimeout(() => {
+            finalizeWithdrawal(newReq.id, phone);
+            delete activeWithdrawTimeouts[newReq.id];
+            if(window.refreshReportsModal) window.refreshReportsModal();
+        }, delayMs);
+        activeWithdrawTimeouts[newReq.id] = timeoutId;
+        return newReq;
+    }
+
+    function restorePendingTimers(phone) {
+        let depositReqs = getDepositRequests(phone);
+        let now = Date.now();
+        depositReqs.forEach(r => {
+            if(r.status === 'pending' && r.completeAt > now) {
+                let remaining = r.completeAt - now;
+                let tid = setTimeout(() => { finalizeDeposit(r.id, phone, r.isCorrect); delete activeDepositTimeouts[r.id]; if(window.refreshReportsModal) window.refreshReportsModal(); }, remaining);
+                activeDepositTimeouts[r.id] = tid;
+            } else if(r.status === 'pending' && r.completeAt <= now) finalizeDeposit(r.id, phone, r.isCorrect);
+        });
+        let withdrawReqs = getWithdrawRequests(phone);
+        withdrawReqs.forEach(r => {
+            if(r.status === 'pending' && r.completeAt > now) {
+                let remaining = r.completeAt - now;
+                let tid = setTimeout(() => { finalizeWithdrawal(r.id, phone); delete activeWithdrawTimeouts[r.id]; if(window.refreshReportsModal) window.refreshReportsModal(); }, remaining);
+                activeWithdrawTimeouts[r.id] = tid;
+            } else if(r.status === 'pending' && r.completeAt <= now) finalizeWithdrawal(r.id, phone);
+        });
+    }
+
+    // --- BANK LOGO HELPER ---
+    function getBankLogoUrl(bankName) {
+        const domains = {
+            "Telebirr": "telebirr.et",
+            "CBE": "cbe.com.et",
+            "Awash": "awashbank.com",
+            "Abysinia": "bankofabyssinia.com",
+            "Oromia": "oromiabank.com",
+            "Dashen": "dashenbanksc.com",
+            "Lion": "lionbank.com.et",
+            "Zemen": "zemenbank.com"
+        };
+        const domain = domains[bankName] || "";
+        return domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : "";
+    }
+
+    // UI Rendering
+    function renderHome() {
+        let title = `🥬 Fresh Vegetable Products`;
+        let html = `<div style="margin-bottom: 15px;"><h3 style="color: #34734a;">${title}</h3></div>`;
+        for(let vip of vipLevels) {
+            html += `<div class="vip-card">
+                <div class="vip-header">
+                    <img src="${vip.logo}" alt="${vip.name}" class="club-logo">
+                    <div class="vip-title">${vip.name}</div>
+                </div>
+                <div class="vip-detail"><span>Price:</span> <strong>${vip.price} ETB</strong></div>
+                <div class="vip-detail"><span>Daily Income:</span> <strong style="color:#3d874b;">${vip.daily} ETB</strong></div>
+                <div class="vip-detail"><span>Total Income:</span> <strong>${vip.total} ETB</strong></div>
+                <div class="vip-detail"><span>Investment Days:</span> <strong>${vip.days} Days</strong></div>
+                <button class="purchase-btn" data-id="${vip.id}" data-price="${vip.price}"><span>BUY PRODUCT</span><strong>ETB ${vip.price.toLocaleString('en-US')}</strong></button>
+            </div>`;
+        }
+        document.getElementById('homePanel').innerHTML = html;
+        document.querySelectorAll('.purchase-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let price = parseInt(btn.dataset.price);
+                let vipId = parseInt(btn.dataset.id);
+                let stats = getUserStats(currentUser);
+                if(stats.balance >= price) {
+                    stats.balance -= price;
+                    saveUserStats(currentUser, stats);
+                    let purchases = getUserPurchases(currentUser);
+                    purchases.push({ vipId, purchaseTime: Date.now(), lastClaim: Date.now() });
+                    saveUserPurchases(currentUser, purchases);
+                    alert(`✅ ${vipLevels.find(v=>v.id===vipId).name} purchased! Daily income will be added automatically.`);
+                    updateDashboardUI();
+                    renderHome();
+                } else alert("❌ Insufficient balance. Please deposit.");
+            });
+        });
+    }
+
+    // Deposit flow
+    let depositState = { step: 'amount', amount: null, bank: null, orderCode: null };
+    function renderDeposit() {
+        document.getElementById('depositPanel').innerHTML = `<div class="deposit-step-card" id="depositStepContainer"></div>`;
+        depositState = { step: 'amount', amount: null, bank: null, orderCode: null };
+        renderStepAmount();
+    }
+
+    function renderStepAmount() {
+        const amounts = vipLevels.map(v => v.price);
+        let title = currentLang==='am' ? `💰 Select Deposit Amount` : `💰 Select Deposit Amount`;
+        let sub = currentLang==='am' ? `Select the product price you want to purchase:` : `Select the registered price for the product you want to invest in:`;
+        let btnText = currentLang==='am' ? `Continue` : `Continue`;
+        
+        let html = `<h3>${title}</h3><p style="font-size:0.85rem; color:#6d8268; margin-bottom:10px;">${sub}</p><div class="amount-grid">`;
+        amounts.forEach(a => html += `<div class="amount-btn" data-amount="${a}">${a} ETB</div>`);
+        html += `</div><button id="contAmtBtn" disabled>${btnText}</button>`;
+        document.getElementById('depositStepContainer').innerHTML = html;
+        let selected = null;
+        document.querySelectorAll('.amount-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selected = parseInt(btn.dataset.amount);
+                document.getElementById('contAmtBtn').disabled = false;
+            };
+        });
+        document.getElementById('contAmtBtn').onclick = () => { if(selected) { depositState.amount = selected; renderStepBank(); } else alert("Select amount"); };
+    }
+
+    function renderStepBank() {
+        let banks = ["Telebirr", "CBE", "Awash", "Abysinia", "Oromia", "Dashen", "Lion", "Zemen"];
+        let title = currentLang==='am' ? `🏦 Select Payment Method` : `🏦 Select Payment Method`;
+        let btnText = currentLang==='am' ? `Continue` : `Continue`;
+        let backText = currentLang==='am' ? `Back` : `Back`;
+        
+        let html = `<h3>${title}</h3><div class="bank-select-grid">`;
+        banks.forEach(b => {
+            let logoUrl = getBankLogoUrl(b);
+            html += `<div class="bank-option" data-bank="${b}" style="display:flex; align-items:center; justify-content:center; gap:6px;">
+                <img src="${logoUrl}" style="width:20px; height:20px; border-radius:4px;" onerror="this.style.display='none'">
+                <span>${b}</span>
+            </div>`;
+        });
+        html += `</div><button id="contBankBtn" disabled>${btnText}</button><button id="backAmtBtn" class="btn-secondary">${backText}</button>`;
+        document.getElementById('depositStepContainer').innerHTML = html;
+        let selected = null;
+        document.querySelectorAll('.bank-option').forEach(opt => {
+            opt.onclick = () => {
+                document.querySelectorAll('.bank-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selected = opt.dataset.bank;
+                document.getElementById('contBankBtn').disabled = false;
+            };
+        });
+        document.getElementById('contBankBtn').onclick = () => { 
+            if(selected) { 
+                if (selected !== 'Telebirr') {
+                    let msg = currentLang==='am' 
+                        ? `⚠️ ${selected} payment option is not available yet. Please use Telebirr for now.` 
+                        : `⚠️ ${selected} payment option will be included in the future! Please use Telebirr for now.`;
+                    alert(msg);
+                    return;
+                }
+                depositState.bank = selected; 
+                renderStepPayment(); 
+            } else alert("Select bank"); 
+        };
+        document.getElementById('backAmtBtn').onclick = () => renderStepAmount();
+    }
+
+    function renderStepPayment() {
+        let orderCode = "PN" + Date.now() + Math.floor(Math.random()*10000);
+        depositState.orderCode = orderCode;
+        
+        let recipientName = "Elisaye";
+        let accountNumber = "0950714744";
+
+        let title = currentLang==='am' ? `💸 Payment Details` : `💸 Payment Details`;
+        let labelMethod = currentLang==='am' ? `Payment Method:` : `Payment Method:`;
+        let labelRecipient = currentLang==='am' ? `Recipient Name:` : `Recipient Name:`;
+        let labelAccount = currentLang==='am' ? `Phone/Account:` : `Phone/Account:`;
+        let labelAmount = currentLang==='am' ? `Amount:` : `Amount:`;
+        let labelOrder = currentLang==='am' ? `Order Code:` : `Order Code:`;
+        let btnCopy = currentLang==='am' ? `Copy` : `Copy`;
+        let subCopy = currentLang==='am' ? `Use the order code as the transfer reference.` : `Use order code as transfer reference.`;
+        let btnPaid = currentLang==='am' ? `✅ I Have Made the Transfer` : `✅ I have made transfer`;
+        let btnBack = currentLang==='am' ? `Back` : `Back`;
+
+        let html = `<h3>${title}</h3>
+        <div style="background:#eaf2e4;border-radius:16px;padding:16px;margin:15px 0;line-height:1.6;">
+            <div><strong>${labelMethod}</strong> ${depositState.bank}</div>
+            <div><strong>${labelRecipient}</strong> ${recipientName}</div>
+            <div><strong>${labelAccount}</strong> ${accountNumber}</div>
+            <div><strong>${labelAmount}</strong> <span style="color:#d7a84b;font-weight:bold;">${depositState.amount} ETB</span></div>
+            <div><strong>${labelOrder}</strong> ${orderCode} <span class="copy-btn" id="copyOrderBtn">${btnCopy}</span></div>
+            <div style="margin-top:6px;"><small style="color:#6d8268;">${subCopy}</small></div>
+        </div>
+        <button id="paidBtn">${btnPaid}</button>
+        <button id="backBankBtn" class="btn-secondary">${btnBack}</button>`;
+        
+        document.getElementById('depositStepContainer').innerHTML = html;
+        document.getElementById('copyOrderBtn')?.addEventListener('click', () => { 
+            navigator.clipboard.writeText(orderCode); 
+            alert(currentLang==='am' ? "Order code copied" : "Order code copied"); 
+        });
+        
+        document.getElementById('paidBtn').onclick = () => {
+            let tinPrompt = currentLang==='am' ? "📄 Please enter your FT / TIN number:" : "📄 Please enter your FT / TIN number:";
+            let tin = prompt(tinPrompt);
+            if(!tin || tin.trim() === "") { 
+                alert(currentLang==='am' ? "FT/TIN is required!" : "FT/TIN is required!"); 
+                return; 
+            }
+            let isValid = isTinValidForAmount(tin, depositState.amount);
+            let msg = isValid 
+                ? (currentLang==='am' ? "✅ Valid TIN! Pending for 2 minutes, then credited." : "✅ Valid TIN! Pending for 2 minutes then credited.") 
+                : (currentLang==='am' ? "❌ Invalid TIN for this product level! Pending for 15 minutes, then declined." : "❌ Invalid TIN for this product level! Pending for 15 minutes then declined.");
+            
+            if(confirm(`TIN: ${tin}\n${msg}\nSubmit?`)) {
+                addDepositRequest(currentUser, depositState.amount, depositState.bank, tin.trim(), depositState.orderCode);
+                alert(currentLang==='am' ? "Deposit request recorded! Check Reports." : "Deposit request recorded! Check Reports.");
+                showPanel('home');
+                renderMy();
+            }
+        };
+        document.getElementById('backBankBtn').onclick = () => renderStepBank();
+    }
+
+    // Withdraw
+    function renderWithdraw() {
+        let stats = getUserStats(currentUser);
+        let bank = getUserBank(currentUser);
+        let panel = document.getElementById('withdrawPanel');
+        panel.innerHTML = `<div class="withdraw-card">
+            <h3>🏧 Withdrawal</h3>
+            <div style="margin: 12px 0;"><strong>Available Balance:</strong> ${stats.balance.toFixed(2)} ETB</div>
+            <div style="color: #6d8268; font-size: 0.85rem; margin-bottom: 12px;">Minimum Withdrawal: 300 ETB | Service Fee: 15%</div>
+            <div class="form-group"><input type="number" id="wdAmount" placeholder="Enter Amount in ETB"></div>
+            <button id="requestWdBtn">Request Withdrawal</button>
+            <div id="wdBankInfo" style="margin-top: 15px; font-size: 0.9rem; color: #405b43; background: #f4f8ef; padding: 12px; border-radius: 12px;">${bank ? `<strong>Target Bank:</strong> ${bank.bankName}<br><strong>Account:</strong>${bank.accountNumber}` : '⚠️ No bank account added. Go to My → Bank Account'}</div>
+        </div>`;
+        document.getElementById('requestWdBtn').onclick = () => {
+            let amt = parseFloat(document.getElementById('wdAmount').value);
+            let bankData = getUserBank(currentUser);
+            if(!bankData) { alert("Please add bank account first."); return; }
+            if(amt < 300) { alert("Minimum withdrawal is 300 ETB"); return; }
+            if(amt > stats.balance) { alert("Insufficient balance"); return; }
+            let hour = new Date().getHours();
+            if(hour < 10 || hour >= 17) { alert("Withdrawals are allowed only between 10:00 - 17:00"); return; }
+            let fee = amt * 0.15;
+            let net = amt - fee;
+            if(confirm(`Withdraw ${amt} ETB?\nFee: ${fee} ETB\nNet Received: ${net} ETB\nProcessing time: ~5 minutes`)) {
+                stats.balance -= amt;
+                stats.totalWithdraw += amt;
+                saveUserStats(currentUser, stats);
+                addWithdrawRequest(currentUser, amt, bankData);
+
+
+                alert("Withdrawal request submitted! Pending for 5 minutes.");
+                updateDashboardUI();
+                showPanel('home');
+                renderMy();
+            }
+        };
+    }
+
+    // --- REPORTS MODAL WITH TOGGLE AND STRICT LEFT/RIGHT SPLIT ---
+    let reportsModalDiv = null;
+    let activeReportTab = 'deposit';
+
+    function showReportsModal() {
+        if(reportsModalDiv) reportsModalDiv.remove();
+        let overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        
+        let titleText = currentLang === 'am' ? '📋 Transaction Reports' : '📋 Transaction Reports';
+        let depTabLabel = currentLang === 'am' ? '📥 Deposits' : '📥 Deposit';
+        let wdTabLabel = currentLang === 'am' ? '📤 Withdrawals' : '📤 Withdraw';
+        let closeText = currentLang === 'am' ? 'Close' : 'Close';
+
+        overlay.innerHTML = `
+            <div class="report-modal">
+                <h3 style="color:#34734a; margin-bottom:15px; text-align:center;">${titleText}</h3>
+                <div class="report-tab-container">
+                    <div id="tabDepBtn" class="report-tab-btn ${activeReportTab === 'deposit' ? 'active-dep' : ''}">${depTabLabel}</div>
+                    <div id="tabWdBtn" class="report-tab-btn ${activeReportTab === 'withdraw' ? 'active-wd' : ''}">${wdTabLabel}</div>
+                </div>
+                <div class="report-split-grid">
+                    <div id="depositColumn" class="report-col" style="display: ${activeReportTab === 'deposit' ? 'block' : 'none'};"></div>
+                    <div id="withdrawColumn" class="report-col" style="display: ${activeReportTab === 'withdraw' ? 'block' : 'none'};"></div>
+                </div>
+                <button id="closeReportBtn" class="btn-secondary" style="margin-top:15px;">${closeText}</button>
+            </div>`;
+            
+        document.body.appendChild(overlay);
+        reportsModalDiv = overlay;
+
+        document.getElementById('tabDepBtn').onclick = () => {
+            activeReportTab = 'deposit';
+            document.getElementById('tabDepBtn').className = 'report-tab-btn active-dep';
+            document.getElementById('tabWdBtn').className = 'report-tab-btn';
+            document.getElementById('depositColumn').style.display = 'block';
+            document.getElementById('withdrawColumn').style.display = 'none';
+        };
+
+        document.getElementById('tabWdBtn').onclick = () => {
+            activeReportTab = 'withdraw';
+            document.getElementById('tabWdBtn').className = 'report-tab-btn active-wd';
+            document.getElementById('tabDepBtn').className = 'report-tab-btn';
+            document.getElementById('depositColumn').style.display = 'none';
+            document.getElementById('withdrawColumn').style.display = 'block';
+        };
+
+        window.refreshReportsModal = () => refreshReportsContent();
+        refreshReportsContent();
+
+        document.getElementById('closeReportBtn').onclick = () => { overlay.remove(); reportsModalDiv = null; window.refreshReportsModal = null; };
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) { overlay.remove(); reportsModalDiv = null; window.refreshReportsModal = null; } });
+    }
+
+    function formatTransactionDateTime(timestamp) {
+        const value = Number(timestamp);
+        if (!Number.isFinite(value) || value <= 0) return 'Date/time unavailable';
+        return new Date(value).toLocaleString('en-GB', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: true
+        });
+    }
+
+    function refreshReportsContent() {
+        if(!reportsModalDiv) return;
+        
+        let depContainer = reportsModalDiv.querySelector('#depositColumn');
+        let wdContainer = reportsModalDiv.querySelector('#withdrawColumn');
+        if(!depContainer || !wdContainer) return;
+
+        let deposits = getDepositRequests(currentUser);
+        let withdrawals = getWithdrawRequests(currentUser);
+
+        let depHtml = '';
+        if(deposits.length === 0) {
+            depHtml = `<div style="font-size:0.85rem; color:#8ba184; text-align:center; padding:15px;">No deposit history.</div>`;
+        } else {
+            deposits.slice().reverse().forEach(d => {
+                let statusClass = d.status === 'pending' ? 'status-pending' : (d.status==='success'?'status-success':'status-failed');
+                let statusText = d.status === 'pending' ? '⏳ Pending' : (d.status==='success'?'✅ Success':'❌ Failed');
+                let timer = '';
+                if(d.status === 'pending') {
+                    let left = Math.max(0, d.completeAt - Date.now());
+                    let mins = Math.floor(left/60000), secs = Math.floor((left%60000)/1000);
+                    timer = `<div class="timer-text">Remaining: ${mins}m ${secs}s</div>`;
+                }
+                depHtml += `<div class="report-item">
+                    <div><strong>${d.amount} ETB</strong> - ${d.bank}</div>
+                    <div style="font-size:0.8rem; color:#4b6474; margin-top:4px;">🕒 Date &amp; time: ${formatTransactionDateTime(d.createdAt)}</div>
+                    <div style="font-size:0.8rem; color:#6d8268;">TIN: ${d.tin}</div>
+                    <div style="font-size:0.8rem; color:#6d8268;">Order: ${d.orderCode}</div>
+                    <div class="${statusClass}">${statusText}</div>${timer}
+                </div>`;
+            });
+        }
+        depContainer.innerHTML = depHtml;
+
+        let wdHtml = '';
+        if(withdrawals.length === 0) {
+            wdHtml = `<div style="font-size:0.85rem; color:#8ba184; text-align:center; padding:15px;">No withdrawal history.</div>`;
+        } else {
+            withdrawals.slice().reverse().forEach(w => {
+                let statusClass = w.status === 'pending' ? 'status-pending' : 'status-success';
+                let statusText = w.status === 'pending' ? '⏳ Pending' : '✅ Success';
+                let timer = '';
+                if(w.status === 'pending') {
+                    let left = Math.max(0, w.completeAt - Date.now());
+                    let mins = Math.floor(left/60000), secs = Math.floor((left%60000)/1000);
+                    timer = `<div class="timer-text">Remaining: ${mins}m ${secs}s</div>`;
+                }
+                wdHtml += `<div class="report-item" style="border-left-color: #0d9488;">
+                    <div><strong>${w.amount} ETB</strong> - ${w.bank}</div>
+                    <div style="font-size:0.8rem; color:#4b6474; margin-top:4px;">🕒 Date &amp; time: ${formatTransactionDateTime(w.createdAt)}</div>
+                    <div style="font-size:0.8rem; color:#6d8268;">Acc: ${w.account}</div>
+                    <div class="${statusClass}">${statusText}</div>${timer}
+                </div>`;
+            });
+        }
+        wdContainer.innerHTML = wdHtml;
+    }
+
+    // Guest / Chest Code Functionality
+    function openChestModal() {
+        let codeInput = prompt("🎁 Enter Guest Code:");
+        if(!codeInput || codeInput.trim() === "") return;
+
+        let userCode = codeInput.trim().toLowerCase();
+
+        let isValid = validGuestCodes.some(c => c.toLowerCase() === userCode);
+        if (!isValid) {
+            alert("invalid code");
+            return;
+        }
+
+        let codeData = getCodeInfo(userCode);
+
+        if (codeData.usedUsers.includes(currentUser)) {
+            alert("invalid code");
+            return;
+        }
+
+        if (codeData.count >= 20) {
+            alert("invalid code");
+            return;
+        }
+
+        let reward = Math.floor(Math.random() * 14) + 2;
+
+        let stats = getUserStats(currentUser);
+        stats.balance += reward;
+        stats.totalIncome += reward;
+        saveUserStats(currentUser, stats);
+
+        codeData.usedUsers.push(currentUser);
+        codeData.count += 1;
+        localStorage.setItem("fgi_guest_code_" + userCode, JSON.stringify(codeData));
+
+        updateDashboardUI();
+
+
+        alert(`🎉 Congratulations! Valid code. ETB ${reward}.00 has been added to your balance!`);
+    }
+
+    // My Account page
+    function renderMy() {
+        let stats = getUserStats(currentUser);
+        let panel = document.getElementById('myPanel');
+        panel.innerHTML = `<section class="my-account-shell">
+            <header class="my-account-head">
+                <div class="my-avatar"><i class="fas fa-user"></i></div>
+                <div style="min-width:0;">
+                    <div class="my-account-kicker">Account Center</div>
+                    <div class="my-account-user">${currentUser}</div>
+                </div>
+            </header>
+            <div class="my-balance-card">
+                <div class="my-balance-label"><i class="fas fa-wallet"></i> Available Balance</div>
+                <div class="my-balance-value">ETB ${stats.balance.toFixed(2)}</div>
+            </div>
+            <div class="my-stat-grid">
+                <div class="my-stat-card"><div class="my-stat-label"><i class="fas fa-arrow-down"></i> Total Deposits</div><div class="my-stat-value">ETB ${stats.totalDeposit.toFixed(2)}</div></div>
+                <div class="my-stat-card"><div class="my-stat-label"><i class="fas fa-arrow-up"></i> Total Withdrawals</div><div class="my-stat-value">ETB ${stats.totalWithdraw.toFixed(2)}</div></div>
+            </div>
+            <div class="my-section-title">ACCOUNT TOOLS</div>
+            <div class="my-action-grid">
+                <button id="reportsBtnMy"><i class="fas fa-chart-line"></i>Transaction Reports</button>
+                <button id="bankAccountBtnMy"><i class="fas fa-building-columns"></i>Payment Details</button>
+                <button id="changePwdBtnMy"><i class="fas fa-shield-halved"></i>Security Settings</button>
+                <button id="teamTaskBtnMy"><i class="fas fa-people-group"></i>Referral Program</button>
+                <button id="chestBtnMy"><i class="fas fa-gift"></i>Reward Code</button>
+                <button id="customerServiceBtnMy"><i class="fas fa-headset"></i>Help Center</button>
+            </div>
+            <div id="myDynamicContent" class="my-dynamic-content" style="display:none;"></div>
+        </section>`;
+        document.getElementById('reportsBtnMy').onclick = () => showReportsModal();
+        document.getElementById('bankAccountBtnMy').onclick = () => showBankFormWithModal();
+        document.getElementById('changePwdBtnMy').onclick = () => changePasswordUI();
+        document.getElementById('teamTaskBtnMy').onclick = () => alert("Invite friends with your referral code to earn eligible referral commissions.");
+        document.getElementById('chestBtnMy').onclick = () => openChestModal();
+        document.getElementById('customerServiceBtnMy').onclick = () => showPanel('service');
+    }
+
+    function showBankFormWithModal() {
+        const container = document.getElementById('myDynamicContent');
+        container.style.display = 'block';
+        let curr = getUserBank(currentUser);
+        container.innerHTML = `<div class="bank-card-form">
+            <div class="bank-header-row"><span style="font-weight:bold; color:#34734a;">🏦 Bank Account Details</span><div class="three-dot-icon" id="threeDotBankBtn"><i class="fas fa-ellipsis-v"></i></div></div>
+            <div class="form-group"><input type="text" id="bankNameField" placeholder="Bank Name" value="${curr?.bankName||''}" readonly style="background:#eaf2e4;"></div>
+            <div class="form-group"><input type="text" id="accNumberField" placeholder="Account Number" value="${curr?.accountNumber||''}"></div>
+            <div class="form-group"><input type="text" id="holderField" placeholder="Account Holder Name" value="${curr?.holderName||''}"></div>
+            <button id="saveBankDetailsBtn">Save Details</button>
+        </div>`;
+        const bankList = ["Telebirr","CBE","Awash","Abysinia","Oromia","Dashen","Lion","Zemen"];
+        document.getElementById('threeDotBankBtn').onclick = () => {
+            let modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `<div class="bank-select-modal"><h4 style="margin-bottom:12px; color:#34734a;">Select Bank / Telebirr</h4><div id="bankOptList"></div><button id="closeBankListBtn" class="btn-secondary">Close</button></div>`;
+            document.body.appendChild(modal);
+            let listDiv = modal.querySelector('#bankOptList');
+            bankList.forEach(b => {
+                let opt = document.createElement('div');
+                opt.className = 'bank-option-item';
+                let logoUrl = getBankLogoUrl(b);
+                opt.innerHTML = `<img src="${logoUrl}" style="width:24px; height:24px; border-radius:4px;" onerror="this.style.display='none'"> <span>${b}</span>`;
+                opt.onclick = () => {
+                    document.getElementById('bankNameField').value = b;
+                    modal.remove();
+                };
+                listDiv.appendChild(opt);
+            });
+            modal.querySelector('#closeBankListBtn').onclick = () => modal.remove();
+            modal.addEventListener('click', (e) => { if(e.target === modal) modal.remove(); });
+        };
+        document.getElementById('saveBankDetailsBtn').onclick = () => {
+            let bn = document.getElementById('bankNameField').value.trim();
+            let acc = document.getElementById('accNumberField').value.trim();
+            let holder = document.getElementById('holderField').value.trim();
+            if(!bn || !acc || !holder) { alert("All fields are required"); return; }
+            saveUserBank(currentUser, { bankName: bn, accountNumber: acc, holderName: holder });
+            alert("Bank account saved successfully!");
+            renderMy();
+        };
+    }
+
+    function changePasswordUI() {
+        let users = getUsers();
+        const container = document.getElementById('myDynamicContent');
+        container.style.display = 'block';
+        container.innerHTML = `<div style="background:#f4f8ef; padding:15px; border-radius:12px;"><div class="form-group"><input type="password" id="oldPass" placeholder="Current Password"></div><div class="form-group"><input type="password" id="newPass" placeholder="New Password"></div><button id="changePwdFinal">Change Password</button></div>`;
+        document.getElementById('changePwdFinal').onclick = () => {
+            let old = document.getElementById('oldPass').value;
+            let newp = document.getElementById('newPass').value;
+            if(users[currentUser].password !== old) alert("Current password is wrong");
+            else { 
+                users[currentUser].password = newp; 
+                saveUsers(users); 
+                syncUserToCloud(currentUser);
+                alert("Password updated successfully!"); 
+                renderMy(); 
+            }
+        };
+    }
+
+    // --- SHARE / TEAM PANEL (masked phone numbers, levels 1-3) ---
+    function renderShare() {
+        let users = getUsers();
+        let myCode = users[currentUser]?.inviteCode || (()=>{ let c = Math.random().toString(36).substring(2,8).toUpperCase(); users[currentUser].inviteCode = c; saveUsers(users); return c; })();
+        let link = window.location.origin + window.location.pathname + `?ref=${myCode}`;
+
+        let team = getTeamByLevels(currentUser);
+
+        function memberRowsHtml(list) {
+            if(!list || list.length === 0) {
+                return `<div style="font-size:0.8rem; color:#8ba184; margin-top:6px;">No members yet.</div>`;
+            }
+            return list.map(p => {
+                let active = isMemberActive(p);
+                return `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px dashed #d9e6d2; font-size:0.85rem;">
+                    <span><i class="fas fa-user" style="color:#5d9b61;"></i> <span style="font-family: monospace; letter-spacing:0.5px;">${maskPhone(p)}</span></span>
+                    <span style="color:${active ? '#3d874b' : '#8ba184'}; font-weight:bold; font-size:0.7rem;">${active ? 'ACTIVE' : 'INACTIVE'}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function activeCount(list) {
+            return (list || []).filter(p => isMemberActive(p)).length;
+        }
+
+        let lvl1 = team[1] || [];
+        let lvl2 = team[2] || [];
+        let lvl3 = team[3] || [];
+
+        let html = `<div class="vip-card">
+            <div style="margin-bottom:10px;"><strong>Invitation Code:</strong> <span style="color:#d7a84b; font-weight:bold;">${myCode}</span> <span class="copy-btn" id="copyCodeBtn">Copy</span></div>
+            <div style="margin-bottom:15px; word-break:break-all;"><strong>Invitation Link:</strong> ${link} <span class="copy-btn" id="copyLinkBtn">Copy</span></div>
+            <hr style="margin:12px 0; border:none; border-top:1px solid #d9e6d2;">
+
+            <div class="team-level">
+                <strong>Team Level 1 (20% Commission)</strong><br>
+                Members: ${lvl1.length}<br>
+                Active: ${activeCount(lvl1)}
+                <div style="margin-top:8px;">${memberRowsHtml(lvl1)}</div>
+            </div>
+
+            <div class="team-level">
+                <strong>Team Level 2 (3% Commission)</strong><br>
+                Members: ${lvl2.length}<br>
+                Active: ${activeCount(lvl2)}
+                <div style="margin-top:8px;">${memberRowsHtml(lvl2)}</div>
+            </div>
+
+            <div class="team-level">
+                <strong>Team Level 3 (2% Commission)</strong><br>
+                Members: ${lvl3.length}<br>
+                Active: ${activeCount(lvl3)}
+                <div style="margin-top:8px;">${memberRowsHtml(lvl3)}</div>
+            </div>
+
+            <small style="color:#6d8268;">Earn referral bonuses: 20% on direct deposits, 3% on level 2, and 2% on level 3.</small>
+        </div>`;
+
+        document.getElementById('sharePanel').innerHTML = html;
+        document.getElementById('copyCodeBtn')?.addEventListener('click',()=>{ navigator.clipboard.writeText(myCode); alert("Invitation code copied!"); });
+        document.getElementById('copyLinkBtn')?.addEventListener('click',()=>{ navigator.clipboard.writeText(link); alert("Invitation link copied!"); });
+    }
+
+    function renderOrders() {
+        let purchases = getUserPurchases(currentUser);
+        let html = `<h3 style="color:#34734a; margin-bottom:15px;">📦 My Investment Products</h3>`;
+        if(purchases.length===0) html += `<div style="color:#6d8268;">No investments active yet.</div>`;
+        else purchases.forEach(p => { 
+            let vip = vipLevels.find(v=>v.id===p.vipId); 
+            if(vip) html += `<div class="vip-card">
+                <div class="vip-header">
+                    <img src="${vip.logo}" alt="${vip.name}" class="club-logo">
+                    <div class="vip-title">${vip.name}</div>
+                </div>
+                <div class="vip-detail"><span>Price:</span> <strong>${vip.price} ETB</strong></div>
+                <div class="vip-detail"><span>Daily Income:</span> <strong style="color:#3d874b;">${vip.daily} ETB</strong></div>
+                <div class="vip-detail"><span>Last Claimed:</span> <strong>${new Date(p.lastClaim).toLocaleDateString()}</strong></div>
+            </div>`; 
+        });
+        document.getElementById('ordersPanel').innerHTML = html;
+    }
+
+    function renderShow() {
+        document.getElementById('showPanel').innerHTML = `
+        <style>
+          .vm-about{color:#243b2e;line-height:1.65}
+          .vm-hero{padding:22px;border-radius:20px;background:linear-gradient(135deg,#174d35,#3f8c50 58%,#d7b64d);color:#fff;margin-bottom:14px;box-shadow:0 8px 22px #174d3522}
+          .vm-hero h2{font-size:1.45rem;margin:0 0 8px}.vm-hero p{margin:0;color:#f2f8ef}
+          .vm-card{background:#fff;border:1px solid #dce9d9;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 4px 14px #183e2910}
+          .vm-card h3{color:#287044;margin:0 0 9px;font-size:1.08rem}
+          .vm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+          .vm-tile{background:#f1f8ed;border-radius:12px;padding:12px;text-align:center}
+          .vm-tile b{display:block;color:#287044;font-size:1rem}.vm-table-wrap{overflow-x:auto}
+          .vm-table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:300px}.vm-table th{background:#246b43;color:#fff;text-align:left;padding:10px}
+          .vm-table td{padding:10px;border-bottom:1px solid #e3ecdf}.vm-table tr:nth-child(even){background:#f4f8f0}
+          .vm-note{font-size:.82rem;color:#657767;background:#f7f8ef;padding:11px;border-left:4px solid #d7b64d;border-radius:8px}
+          @media(max-width:360px){.vm-grid{grid-template-columns:1fr}.vm-card{padding:12px}}
+        </style>
+        <div class="vm-about">
+          <section class="vm-hero"><div style="font-size:2rem;margin-bottom:4px">🥬 🥕 🍅 🧅</div><h2>Fresh Vegetable Market</h2><p>Growing a healthier future through fresh vegetables, responsible agriculture, reliable supply chains and stronger connections between growers and customers.</p></section>
+          <section class="vm-card"><h3>🌱 About Vegetable Market</h3>
+            <p>Vegetables are essential to a balanced diet and support everyday nutrition. Fresh Vegetable Market is presented as a vegetable-focused marketplace concept intended to connect people with vegetable products and encourage awareness of farming, food quality, distribution and agricultural business opportunities.</p>
+            <p style="margin-top:8px">Our key values are freshness, quality, transparency, customer care, responsible growth and respect for farmers and customers. We aim to make information about products, pricing, service and participation clear and easy to understand.</p>
+          </section>
+          <section class="vm-card"><h3>🥦 Why vegetables matter</h3><div class="vm-grid">
+            <div class="vm-tile">🥗<b>Nutrition</b><span>Vegetables provide important vitamins, minerals and fibre.</span></div>
+            <div class="vm-tile">🌾<b>Farmers</b><span>A strong market can help connect growers with buyers.</span></div>
+            <div class="vm-tile">🚚<b>Distribution</b><span>Careful storage and transport help preserve quality.</span></div>
+            <div class="vm-tile">♻️<b>Sustainability</b><span>Better planning can help reduce avoidable food waste.</span></div>
+          </div></section>
+          <section class="vm-card"><h3>🌍 International vision</h3>
+            <p>The long-term vision is to explore opportunities across different countries and regions, adapting to local farming seasons, customer preferences, food-safety rules and distribution needs. Possible future areas of research include East Africa, other African markets, the Middle East, Asia and international produce-trading networks.</p>
+            <p style="margin-top:8px">These are proposed areas for future exploration, not a confirmation that the organisation currently operates in those countries. Any country office, partnership, export route or licence should be announced only after it has been verified.</p>
+          </section>
+          <section class="vm-card"><h3>🤝 Referral programme — commission guide</h3>
+            <p>The current app logic shows three referral levels. The amounts below are examples calculated from the deposit amount entered by a referred member; they are not a guarantee of earnings.</p>
+            <div class="vm-table-wrap"><table class="vm-table"><thead><tr><th>Referral level</th><th>Commission rate</th><th>ETB 500 deposit</th><th>ETB 1,000 deposit</th><th>ETB 5,000 deposit</th></tr></thead><tbody>
+              <tr><td>Level 1 — direct referral</td><td>20%</td><td>ETB 100</td><td>ETB 200</td><td>ETB 1,000</td></tr>
+              <tr><td>Level 2 — second level</td><td>3%</td><td>ETB 15</td><td>ETB 30</td><td>ETB 150</td></tr>
+              <tr><td>Level 3 — third level</td><td>2%</td><td>ETB 10</td><td>ETB 20</td><td>ETB 100</td></tr>
+            </tbody></table></div>
+            <p style="margin-top:10px"><b>How to calculate:</b> commission = eligible deposit × level rate. For example, a Level 1 referral depositing ETB 1,000 gives a calculated commission of ETB 200 under the app's current formula.</p>
+          </section>
+          <section class="vm-card"><h3>🧭 Our proposed development roadmap</h3>
+            <p><b>1. Product information:</b> publish clear vegetable descriptions, quality guidance, product availability and transparent prices.</p>
+            <p><b>2. Farmer partnerships:</b> explore fair and practical relationships with growers, cooperatives and local suppliers.</p>
+            <p><b>3. Better delivery:</b> research storage, packaging, transport and order-tracking methods to protect freshness.</p>
+            <p><b>4. Digital marketplace:</b> improve mobile access, product catalogues, customer support, order history and account security.</p>
+            <p><b>5. Training and education:</b> share useful information about vegetable nutrition, seasonal growing, safe handling and reducing food waste.</p>
+            <p><b>6. Regional expansion:</b> study local demand and regulations before entering new towns or countries; build verified partnerships rather than making unsupported claims.</p>
+            <p><b>7. Transparency:</b> make programme rules, commission calculations, withdrawal terms and customer-service contacts easy to find and understand.</p>
+          </section>
+          <section class="vm-card"><h3>💚 Our commitment to customers</h3>
+            <p>We aim to build a service that values honest communication, respectful support, responsible handling of customer information and clear terms. Product quality, supply, delivery, prices and any business opportunity should be described accurately. If a feature is still being planned, it should be labelled as a future goal rather than an existing service.</p>
+          </section>
+        </div>`;
+    }
+
+    function renderService() { 
+        let title = currentLang==='am' ? `📞 Customer Support` : `📞 Customer Support`;
+        let btnChannel = currentLang==='am' ? `📢 Telegram Channel` : `📢 Telegram Channel`;
+        let btnSupport = currentLang==='am' ? `🎧 Customer Service Support` : `🎧 Customer Service Support`;
+
+        document.getElementById('servicePanel').innerHTML = `
+            <div class="vip-card">
+                <h3 style="color:#34734a; margin-bottom:15px;">${title}</h3>
+                <button onclick="window.open('https://t.me/electronicsinvestemente', '_blank')"><i class="fab fa-telegram"></i> ${btnChannel}</button>
+                <button onclick="window.open('https://t.me/evacodoraton', '_blank')" class="btn-secondary"><i class="fas fa-headset"></i> ${btnSupport}</button>
+            </div>`; 
+    }
+    
+    function showPanel(name) {
+        document.getElementById('dashboard').classList.toggle('home-view', name === 'home');
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active-panel'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        
+        let panelEl = document.getElementById(name+'Panel');
+        if(panelEl) panelEl.classList.add('active-panel');
+        
+        let navEl = document.querySelector(`.nav-item[data-nav="${name}"]`);
+        if(navEl) navEl.classList.add('active');
+
+        if(name === 'home') renderHome();
+        if(name === 'orders') renderOrders();
+        if(name === 'show') renderShow();
+        if(name === 'share') renderShare();
+        if(name === 'my') renderMy();
+        if(name === 'deposit') renderDeposit();
+        if(name === 'withdraw') renderWithdraw();
+        if(name === 'service') renderService();
+    }
+
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+        btn.onclick = () => {
+            let act = btn.dataset.action;
+            if(act === 'deposit') showPanel('deposit');
+            else if(act === 'withdraw') showPanel('withdraw');
+            else if(act === 'checkin') {
+                let stats = getUserStats(currentUser);
+                let today = new Date().toDateString();
+                if(stats.lastCheckIn === today) alert("Already checked in today!");
+                else { 
+                    stats.balance += 5; 
+                    stats.totalIncome += 5; 
+                    stats.lastCheckIn = today; 
+                    saveUserStats(currentUser,stats); 
+                    updateDashboardUI(); 
+
+
+                    alert("Daily check-in complete! 5 ETB has been credited to your balance."); 
+                }
+            }
+        };
+    });
+
+
+    // Floating headset: click to open support, drag to reposition (mouse and touch).
+    (() => {
+        const btn = document.getElementById('floatingSupport');
+        let dragging = false, moved = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
+        btn.addEventListener('pointerdown', e => {
+            dragging = true; moved = false;
+            const r = btn.getBoundingClientRect();
+            startX = e.clientX; startY = e.clientY; startLeft = r.left; startTop = r.top;
+            btn.setPointerCapture(e.pointerId);
+        });
+        btn.addEventListener('pointermove', e => {
+            if (!dragging) return;
+            const dx = e.clientX - startX, dy = e.clientY - startY;
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) moved = true;
+            if (moved) {
+                const x = Math.max(0, Math.min(window.innerWidth - btn.offsetWidth, startLeft + dx));
+                const y = Math.max(0, Math.min(window.innerHeight - btn.offsetHeight, startTop + dy));
+                btn.style.left = x + 'px'; btn.style.top = y + 'px';
+                btn.style.right = 'auto'; btn.style.bottom = 'auto';
+            }
+        });
+        btn.addEventListener('pointerup', () => {
+            if (!dragging) return;
+            dragging = false;
+            if (!moved) showPanel('service');
+        });
+        btn.addEventListener('pointercancel', () => { dragging = false; });
+    })();
+
+    // Auth & URL Referral Check
+    function checkUrlForRefCode() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const refParam = urlParams.get('ref');
+        if (refParam) {
+            document.getElementById('inviteCode').value = refParam.toUpperCase();
+            document.getElementById('registerTab').click();
+        }
+    }
+
+    function showAuth() { 
+        document.getElementById('authSection').style.display='flex'; 
+        document.getElementById('dashboard').style.display='none'; 
+        checkUrlForRefCode();
+    }
+
+    function showDashboard() { 
+        document.getElementById('authSection').style.display='none'; 
+        document.getElementById('dashboard').style.display='block'; 
+        updateDashboardUI(); 
+        processDailyIncome(currentUser); 
+        restorePendingTimers(currentUser); 
+        showPanel('home'); 
+    }
+    
+    document.getElementById('loginTab').onclick = () => {
+        document.getElementById('loginTab').classList.add('active');
+        document.getElementById('registerTab').classList.remove('active');
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+    };
+    document.getElementById('registerTab').onclick = () => {
+        document.getElementById('registerTab').classList.add('active');
+        document.getElementById('loginTab').classList.remove('active');
+        document.getElementById('registerForm').style.display = 'block';
+        document.getElementById('loginForm').style.display = 'none';
+    };
+
+    // --- Firebase email/password auth using the phone number as an internal login alias.
+    // SMS verification is disabled per user's request. This means phone ownership is NOT verified.
+    function phoneLoginEmail(phone) {
+        return normalizeEthiopianPhone(phone).replace(/[^0-9]/g, '') + '@phone.damacos.invalid';
+    }
+
+    document.getElementById('doLoginBtn').onclick = async () => {
+        const rawPhone = document.getElementById('loginPhone').value.trim();
+        const pwd = document.getElementById('loginPassword').value;
+        const err = document.getElementById('loginError');
+        err.innerText = '';
+        if (!rawPhone || !pwd) { err.innerText = 'Enter your phone number and password.'; return; }
+        const phone = normalizeEthiopianPhone(rawPhone);
+        try {
+            const credential = await firebaseAuth.signInWithEmailAndPassword(phoneLoginEmail(phone), pwd);
+            const canonicalPhone = phone;
+            const users = getUsers();
+            if (!users[canonicalPhone]) {
+                const cloudData = await cloudGetUser(canonicalPhone);
+                if (cloudData && cloudData.user) {
+                    isSyncingFromCloud = true;
+                    users[canonicalPhone] = cloudData.user;
+                    saveUsers(users);
+                    if (cloudData.stats) saveUserStats(canonicalPhone, cloudData.stats);
+                    if (cloudData.bank) saveUserBank(canonicalPhone, cloudData.bank);
+                    if (cloudData.purchases) saveUserPurchases(canonicalPhone, cloudData.purchases);
+                    if (cloudData.depositReqs) saveDepositRequests(canonicalPhone, cloudData.depositReqs);
+                    if (cloudData.withdrawReqs) saveWithdrawRequests(canonicalPhone, cloudData.withdrawReqs);
+                    isSyncingFromCloud = false;
+                } else {
+                    users[canonicalPhone] = { fullName: credential.user.displayName || 'Investor', inviteCode: '', referrer: null };
+                    saveUsers(users);
+                }
+            }
+            currentUser = canonicalPhone;
+            localStorage.setItem('fgi_logged', canonicalPhone);
+            await syncUserFromCloud(canonicalPhone);
+            showDashboard();
+        } catch (e) {
+            console.error(e);
+            err.innerText = e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found'
+                ? 'Invalid phone number or password.' : 'Login failed: ' + (e.message || e.code);
+        }
+    };
+
+    document.getElementById('doRegisterBtn').onclick = async () => {
+        const fullName = document.getElementById('regName').value.trim();
+        const rawPhone = document.getElementById('regPhone').value.trim();
+        const pwd = document.getElementById('regPassword').value;
+        const conf = document.getElementById('regConfirm').value;
+        const inv = document.getElementById('inviteCode').value.trim();
+        const err = document.getElementById('regError');
+        const btn = document.getElementById('doRegisterBtn');
+        err.innerText = '';
+        if (!fullName || !rawPhone || !pwd) { err.innerText = 'Please enter your full name, phone number, and password.'; return; }
+        if (pwd.length < 6) { err.innerText = 'Password must be at least 6 characters.'; return; }
+        if (pwd !== conf) { err.innerText = 'Passwords do not match.'; return; }
+        const phone = normalizeEthiopianPhone(rawPhone);
+        try {
+            btn.disabled = true;
+            btn.innerText = 'REGISTERING...';
+            
+            // Sign out current user if any to prevent profile conflict
+            if (firebaseAuth.currentUser) {
+                await firebaseAuth.signOut();
+            }
+
+            const credential = await firebaseAuth.createUserWithEmailAndPassword(phoneLoginEmail(phone), pwd);
+            await credential.user.updateProfile({ displayName: fullName });
+            let users = getUsers();
+            const inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            users[phone] = { fullName, inviteCode, referrer: null };
+            if (inv) {
+                for (let parent in users) {
+                    if (users[parent] && users[parent].inviteCode === inv.toUpperCase()) {
+                        users[phone].referrer = parent;
+                        let refTree = getReferralTree();
+                        if (!refTree[parent]) refTree[parent] = { members: [], activeMembers: [] };
+                        if (!refTree[parent].members.includes(phone)) refTree[parent].members.push(phone);
+                        saveReferralTree(refTree);
+                        break;
+                    }
+                }
+            }
+            saveUsers(users);
+            saveUserStats(phone, { balance: 200, totalIncome: 0, totalDeposit: 0, totalWithdraw: 0, lastCheckIn: null });
+            saveDepositRequests(phone, []);
+            saveWithdrawRequests(phone, []);
+            saveUserPurchases(phone, []);
+            currentUser = phone;
+            localStorage.setItem('fgi_logged', phone);
+            await syncUserToCloud(phone);
+            showDashboard();
+        } catch (e) {
+            console.error(e);
+            err.innerText = e.code === 'auth/email-already-in-use'
+                ? 'This phone number already has an account. Please log in.'
+                : 'Registration failed: ' + (e.message || e.code || 'Please try again.');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'REGISTER';
+        }
+    };
+
+    document.getElementById('logoutBtn').onclick = async () => { 
+        try { await firebaseAuth.signOut(); } catch(e) {}
+        localStorage.removeItem("fgi_logged"); 
+        currentUser=null; 
+        showAuth(); 
+    };
+    document.querySelectorAll('.nav-item').forEach(nav => nav.addEventListener('click', () => showPanel(nav.dataset.nav)));
+    
+    // --- INITIALIZATION WITH CLOUD SYNC ---
+    (async function init() {
+        const authUser = await new Promise(resolve => {
+            const unsubscribe = firebaseAuth.onAuthStateChanged(user => { unsubscribe(); resolve(user); });
+        });
+        let logged = localStorage.getItem("fgi_logged");
+        if(logged && authUser) {
+            let users = getUsers();
+            if(users[logged]) {
+                await syncUserFromCloud(logged);
+                currentUser = logged;
+                showDashboard();
+                return;
+            } else {
+                const cloudData = await cloudGetUser(logged);
+                if(cloudData && cloudData.user) {
+                    isSyncingFromCloud = true;
+                    let users = getUsers();
+                    users[logged] = cloudData.user;
+                    saveUsers(users);
+                    if(cloudData.stats) saveUserStats(logged, cloudData.stats);
+                    if(cloudData.bank) saveUserBank(logged, cloudData.bank);
+                    if(cloudData.purchases) saveUserPurchases(logged, cloudData.purchases);
+                    if(cloudData.depositReqs) saveDepositRequests(logged, cloudData.depositReqs);
+                    if(cloudData.withdrawReqs) saveWithdrawRequests(logged, cloudData.withdrawReqs);
+                    isSyncingFromCloud = false;
+                    currentUser = logged;
+                    showDashboard();
+                    return;
+                }
+            }
+        }
+        showAuth();
+    })();
+</script>
+</body>
+</html>
